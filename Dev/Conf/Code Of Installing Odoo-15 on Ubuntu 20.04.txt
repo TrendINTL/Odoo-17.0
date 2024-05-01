@@ -1,0 +1,151 @@
+---------------------------------------------------------------------
+To enable root user credentials on an AWS source Linux workload:
+
+Use SSH tool (such as Putty) to connect to the source Linux workload in AWS, and log in with the ec2user user name and PEM key credentials.
+
+
+In a text editor, edit the /etc/ssh/sshd_config file. Ensure that the directive PasswordAuthentication no is uncommented and set to yes.
+
+Copy
+PasswordAuthentication yes
+Run the /etc/init.d/sshd reload command, or reboot the workload to apply the changes.
+
+On Red Hat Enterprise Linux 7.x, use the following command:
+
+Copy
+              /bin/systemctl restart sshd.service
+rm -rf to force remove dir or file, rmdir -p to remove empty subdirectory and its parent
+rm -rf to force remove dir or file, rmdir -p to remove empty subdirectory and its parent
+rm -rf to force remove dir or file, rmdir -p to remove empty subdirectory and its parent            
+Reloading or restarting the SSH daemon might not work on some Linux distributions, In this case, a reboot is required to apply the settings.
+------------------------------------------------------------------------------
+
+To install sudo apt update
+
+1- first add the webupd8 repository for this program:
+	sudo add-apt-repository ppa:webupd8team/y-ppa-manager
+
+
+	If Error: Open /etc/apt/sources.list using superuser privilege.
+	sudo gedit /etc/apt/sources.list
+		"sudo: gedit: command not found
+		ubuntu@ip-172-31-94-194:~$ gedit /etc/apt/sources.list
+		Command 'gedit' not found, but can be installed with:
+		sudo snap install gedit  # version 46.1, or
+		sudo apt  install gedit  # version 41.0-3
+		See 'snap info gedit' for additional versions.
+		ubuntu@ip-172-31-94-194:~$ ^C
+		ubuntu@ip-172-31-94-194:~$ sudo snap install gedit
+		gedit 46.1 from Canonical✓ installed"
+	Find for this line.
+	deb http://us.archive.ubuntu.com/ubuntu/ artful-updates main
+	Comment/delete it, if you comment it the line would look like this.
+	# deb http://us.archive.ubuntu.com/ubuntu/ artful-updates main
+	Adding # hashtag sign to beginning of the line, this will deactivate the artful repository.
+	Could not resolve 'your.repo.domain'
+	Apparently OP has some unknown source on the package source list, apt doesn't recognized it hence the error above.
+	Same as before procedure, unrecognized source needs to be removed.
+	sudo rm /etc/apt/sources.list.d/your-repo-name.list
+	Where your-repo-name.list is the problematic standalone source list.
+	Try sudo apt update again, it shouldn't produce any error now.
+
+2- Update your software list and install Y-PPA-Manager:
+	sudo apt install chromium-browser
+	sudo apt update
+	sudo apt-get update
+	sudo apt update
+	sudo apt-get install y-ppa-manager
+3- Run y-ppa-manager (i.e. type y-ppa-manager then press enter key).
+
+4- When the main y-ppa-manager window appears, click on "Advanced."
+
+5- From the list of advanced tasks, select "Try to import all missing GPG keys" and click OK.
+--------------------------------------------------------------------------------------------------
+You're done! As the warning dialog says when you start the operation, it may take quite a while (about 2 minutes for me) depending on how many PPA's you have and the speed of your connection.
+1- sudo apt update
+2- sudo apt upgrade
+3- RUN: sudo adduser trend	will request password	pass: 123456
+	Run: sudo su trend
+ 	Create a password for the root user by running the passwd command.
+4- sudo usermod -aG sudo trend, adding user to sudo group so, it can make installations and other commands 
+	replacing ubuntu with the user's actual name
+5- switch user: sudo su trend
+6- sudo apt-get install git-all  ---->> install git libraries
+		-check: git --version
+	7- https://github.com/odoo/odoo/blob/17.0/requirements.txt
+	how to downgrade python version in ubuntu?
+		Try the following steps I'm using Ubuntu 22.04
+		sudo apt-get install unzip
+		nzip file.zip -d destination_folder
+		unzip file.zip
+		Sudo scp folder name 		-------> to upload forlder from local
+		sudo apt-get update 
+		sudo add-apt-repository ppa:deadsnakes/ppa
+		apt list | grep python3.9
+		sudo apt install python3.9
+		sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 1
+		sudo update-alternatives --config python3
+		---------------------------------------------
+
+8- sudo apt-get install git python3-dev python3-pip build-essential libxslt1-dev libzip-dev libldap2-dev libsasl2-dev 	libssl-dev vim  ------->> install required libraries for odoo
+-->> sudo apt-get install git python3-dev python3-pip python3-pypdf2 build-essential libxslt1-dev libxml2-dev libzip-dev libldap2-dev libldap2-dev libtiff5-dev libssl-dev libsasl2-dev liblcms2-dev libjpeg8-dev libopenjp2-7-dev zlib1g-dev libfreetype6-dev libwebp-dev libharfbuzz-dev libfribidi-dev libxcb1-dev libpq-dev
+-->> sudo apt-get install git libfontconfig1 libxrender1 fontconfig xfonts-base xfonts-75dpi libjpeg-turbo8  -------->> Install fonts libraries
+9-	Very important:-> sudo apt-get install python3-pypdf2, maybe:-> pip3 install Pypdf2, no need:-> "pip3 install -U pip"
+10- https://wkhtmltopdf.org/downloads.html,
+11- wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-2/wkhtmltox_0.12.6.1-2.jammy_amd64.deb
+	wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.focal_amd64.deb
+	- ls to know & copy the file name after download to install it....
+	- sudo dpkg -i wkhtmltox_0.12.6.1-2.jammy_amd64.deb  ----------->> Install wkhtmltopdf , wkhtmltox_0.12.6-1.focal_amd64.deb for ubuntu 20.04 amd64 focal
+		-p --disable-smart-shrinking
+13- sudo apt install npm -y  ---------------->> install node java script
+14- sudo npm cache clean -f       ------------>> to clean cache
+15- sudo npm install -g n       ----------->>
+16- sudo n stable           --------->> install stable node js
+17- sudo npm install -g npm    ------------->>
+18- sudo npm install rtlcss  -g    --------------->> install right to left node js library
+19- sudo apt-get install libpq-dev libjpeg-dev    --------------->> install required libraries for postgresql
+20- sudo apt-get install curl ca-certificates gnupg    -------------->> install certificates required for postgresql install
+21- curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -    ------------->>
+22- sudo sh -c 'echo "deb https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+	sudo apt install python3-pip
+23- sudo apt update && sudo apt-get update && sudo apt upgrade && sudo apt-get upgrade
+24- sudo apt-get install postgresql
+25- after change user if error to root then run: sudo -u postgres createuser -d -R -S $USER  ---------->> to create postgres database user
+26- after returned to odoo user run: psql -w postgres    ------------>> cntrl+d or q to exit to entered into postgresql database
+27- alter user postgres with password 'postgres';	------------>> to change database user password
+28- sudo service postgresql restart 	--------------->> restart postgres
+29- psql -l 	--------->> showing the databases
+30- cd /opt
+31- sudo mkdir odoo  	--------->> rm -rf to force remove dir or file, rmdir -p to remove empty subdirectory and its parent
+32- cd odoo
+33- sudo git clone https://github.com/odoo/odoo.git -b 16.0 --depth=1
+34- cd odoo
+35- ls -a -lh
+	/opt/odoo/odoo
+36- sudo rm /usr/lib/python3.*/EXTERNALLY-MANAGED  	<<------THE MOST IMPORTANT COMMAND------>> to remve externally manage
+	sudo apt update && brew install python@3.11 , pip install --upgrade setuptools , pip install lxml==4.8.0,  pip install lxml , sudo apt-get install libxml2-dev libxslt1-dev python-lxml ,
+	sudo apt-get install pyproject.toml
+	RUN: pip install -r  requirements.txt , sudo apt pip3 install -r requirements.txt
+37- ls -a -lh
+38- brew install libpq --build-from-source
+	brew install openssl
+
+	export LDFLAGS="-L/opt/homebrew/opt/openssl@1.1/lib -L/opt/homebrew/opt/libpq/lib"
+	export CPPFLAGS="-I/opt/homebrew/opt/openssl@1.1/include -I/opt/homebrew/opt/libpq/include"
+	pip install pyproject.toml
+	pip3 install psycopg2
+	pip install passlib
+	pip install Pillow
+	pip install reportlab
+	pip install decorator
+	pip install python-dateutil
+	pip install polib
+	pip install lxml_clean
+	pip uninstall lxml
+	pip install lxml==4.8.0
+	
+		./odoo-bin --save --stop-after-init		------->> start odoo (I think no need in the new versions)
+39- sudo cp /etc/odoo-server.conf /opt/odoo/odoo.conf  	---------->> move odoo-server.conf from etc to /opt/odoo/odoo.conf
+40- cd /opt/odoo/
+41- ./odoo/odoo-bin -c odoo.conf
+sudo cp /opt/odoo/odoo.conf /etc/odoo-server.conf

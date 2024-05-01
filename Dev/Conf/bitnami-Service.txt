@@ -1,0 +1,31 @@
+# Copyright VMware, Inc.
+# SPDX-License-Identifier: APACHE-2.0
+
+[Unit]
+SourcePath=/etc/init.d/bitnami
+Description=LSB: bitnami init script
+Before=runlevel2.target runlevel3.target runlevel4.target runlevel5.target shut>
+After=network-online.target remote-fs.target
+Wants=network-online.target
+Conflicts=shutdown.target
+
+[Service]
+Type=forking
+Restart=no
+TimeoutSec=30min
+IgnoreSIGPIPE=no
+KillMode=process
+GuessMainPID=no
+RemainAfterExit=yes
+SysVStartPriority=1
+ExecStart=/etc/init.d/bitnami start
+ExecStop=/etc/init.d/bitnami stop
+LimitNOFILE=65536
+LimitNPROC=32768
+
+# Output needs to appear in instance console output
+StandardOutput=journal+console
+
+[Install]
+WantedBy=multi-user.target
+

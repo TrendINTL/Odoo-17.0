@@ -1,0 +1,321 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>Bitvise SSH Server: Installed resources</title>
+	<meta charset="UTF-8">
+	<style>
+		body {
+			font-family: "Trebuchet MS", Arial, sans-serif;
+			font-size: 10pt;
+			color: #333;
+		}
+
+		#language {
+			text-align: right;
+		}
+
+		#title h1 {
+			margin-top: 36pt;
+			margin-bottom: 36pt;
+			font-size: 24pt;
+			text-align: center;
+			color: #666;
+		}
+
+		#content h1 {
+			padding-left: 6pt;
+            margin-top: 20pt;
+			font-size: 14pt;
+			color: #369;
+		}
+
+			#content h1.chapter {
+				padding-left: 0pt;
+				margin-top: 36pt;
+				margin-bottom: 6pt;
+				font-size: 18pt;
+				color: #666;
+			}
+
+		#content p {
+			padding-left: 6pt;
+		}
+
+
+		#footer {
+			padding-top: 36pt;
+			font-style: italic;
+			font-size: 9pt;
+			text-align: center;
+			clear: both;
+		}
+	</style>
+</head>
+<body>
+
+	<div id="title">
+		<h1>Bitvise SSH Server: Installed resources</h1>
+	</div>
+
+	<div id="content">
+		<h1 class='chapter'>Components that can be used directly</h1>
+		<p>The following Bitvise SSH Server components can be directly used by the administrator:</p>
+
+		<h1>BssCtrl.exe</h1>
+		<p>The SSH Server Control Panel. It provides management of server settings, host keys, and password cache. It also features an interactive SSH connections view.</p>
+
+		<h1>BssCfg.exe</h1>
+		<p>The SSH Server command-line management and configuration utility. See the Bitvise SSH Server Users' Guide (<a href="http://www.bitvise.com/ssh-server-users-guide">http://www.bitvise.com/ssh-server-users-guide</a>) for usage instructions.</p>
+
+		<h1>BssCfgManip.exe, BssCfgManip.idl</h1>
+		<p>
+			A COM object using which Bitvise SSH Server can be configured programmatically from any programming language that supports COM, including Visual Basic and VBS scripts. Open the IDL file in a text editor, like Notepad, for a specification of the interface.
+		</p>
+
+		<h1>bvPwd.exe</h1>
+		<p>Enables a user to change their Windows password or that of another user from the Windows console. Run bvPwd -h  for instructions.</p>
+
+		<h1>bvRun.exe</h1>
+		<p>
+			Can be used to create a child process with extended CreateProcess flags, e.g. to start a child process and return immediately without waiting, or to execute the child process in a different window station and desktop, and more. Similar to start, but for more advanced types of program execution.
+			<br /><br />
+			When used with Bitvise SSH Server, this utility provides a way to launch a program and keep it running when the SSH connection exits, using flags "-brj -new" or "-brj -det".
+		</p>
+
+		<h1>VirtAccountExporter.ps1, VirtAccountImporter.ps1</h1>
+		<p>Example PowerShell scripts that can be used to export SSH Server virtual account settings to a file in CSV format (comma-separated values); or to import settings in CSV format. You can use the scripts as-is, or modify them to use an extended format.</p>
+
+        <h1>uninst.exe</h1>
+        <p>Bitvise SSH Server uninstaller. It is not usually run directly. Instead, use <b>Add or remove programs</b> in Windows.</p>
+        <p>To uninstall Bitvise SSH Server in an unattended manner:</p>
+        <ol>
+            <li><p>Copy <i>uninst.exe</i> from the Bitvise SSH Server installation directory to another temporary location.</p></li>
+            <li>
+                <p>Run it in the temporary folder as follows:</p>
+                <p>uninst "Bitvise SSH Server" -unat</p>
+                <p>If you configured a non-default instance name for the SSH Server installation, you must pass the full instance name instead.</p>
+            </li>
+        </ol>
+        <p>It is possible to run <i>uninst</i> directly from the SSH Server installation directory. However if you do that, <i>uninst</i> will first copy itself to a temporary location, then run itself and exit. The original instance of <i>uninst</i> will exit before the uninstallation completes. This may cause problems if your script performs other tasks which should wait for the uninstallation.</p>
+
+
+		<h1 class='chapter'>Components for use by developers</h1>
+
+		<h1>BssCfgManip.htm</h1>
+		<p>A compiled HTML reference for all settings interfaces available using the SSH Server's scriptable configuration COM object. This information mirrors help available from the interfaces themselves, e.g. by executing a command such as the following in the PowerShell settings query window:</p>
+        <p>$cfg.settings.help</p>
+		<p>See also:<br />
+			<a href="./BssCfgManip.htm">BssCfgManip.htm</a><br />
+			<a href="https://www.bitvise.com/ssh-server-guide-scriptable">https://www.bitvise.com/ssh-server-guide-scriptable</a>
+		</p>
+
+		<h1>SfsDll.h, SfsDll32.lib, SfsDll64.lib</h1>
+		<p>A C++ header and link libraries, providing an interface which an application can use to interact with the SSH Server's virtual filesystem configured for the currently logged on user.
+		An application can access the virtual filesystem via SfsDll when run in a terminal shell, or as an exec request, under an SSH Server connection. The resources that can be accessed this way are the same resources, in the same layout, as can be accessed by the user via SFTP or SCP.
+
+		<h1>SfsDllSample.cpp, SfsDllSample.exe</h1>
+		<p>A sample application that uses the SfsDll interface to access the currently logged on user's virtual filesystem. A pre-built SfsDllSample.exe is included, allowing for experimentation without having to set up a build environment. The sample needs to be run in a terminal shell, in an SSH Server connection.
+
+		<h1>BssStat.exe,  BssStat.cpp</h1>
+		<p>A utility that provides a way to enumerate active SSH Server connections and tunneled connections from a command line. It is accompanied by C++ source code illustrating how to access the same information from an application.</p>
+
+
+		<h1 class='chapter'>Components that should NOT be executed directly</h1>
+		
+        <p>The following Bitvise SSH Server components are invoked from within the server itself or in another special manner, and should not be launched manually:</p>
+
+		<h1>BvSshServer.exe</h1>
+		<p>The SSH Server core program. Runs as a Windows service. Launch it and stop it via the Bitvise SSH Server Control Panel, via Windows Administrative Tools > Services, or via the <i>net stop</i> and <i>net start</i> commands.</p>
+
+		<h1>BssCtrl.ps1</h1>
+		<p>The PowerShell script launched by the SSH Server Control Panel when "Query settings with PowerShell" is used. Displays help and creates the $cfg object used to query SSH Server settings in PowerShell.</p>
+
+		<h1>BvLsaEx.dll</h1>
+		<p>An authentication package installed by Bitvise SSH Server to perform password-less login when using public key authentication, as well as for virtual accounts that use a custom security context.</p>
+
+		<h1>toterms.exe, totermh32.dll, totermh64.dll</h1>
+		<p>The SSH Server's terminal subsystem. Programs executed within the terminal subsystem, including terminal shell, will have totermh32.dll or totermh64.dll loaded into their processes. Note: totermh64.dll is installed only on 64-bit Windows.</p>
+
+		<h1>execs.exe</h1>
+		<p>The SSH Server's exec request subsystem.</p>
+
+		<h1>BvShell.exe</h1>
+		<p>A Unix-like terminal shell that integrates with the SSH Server's virtual filesystem. This allows for shell access to be granted even to users who are only intended to have limited access to the filesystem. This shell can be used for commands that may not be available over SFTP or SCP. BvShell allows WinSCP to function with the SSH Server in SCP mode.</p>
+
+		<h1>TelnetForward.exe</h1>
+		<p>Bitvise Telnet forwarder utility.</p>
+
+		<h1>AgentForward.exe</h1>
+		<p>The SSH Server's authentication agent forwarding subsystem.</p>
+
+		<h1>SfsServer.exe</h1>
+		<p>The SSH Server's SFS, SFTP, and SCP subsystem.</p>
+
+		<h1>SfsDll32.dll, SfsDll64.dll</h1>
+		<p>DLLs providing an interface for applications started under an SSH connection in a terminal shell, or as an exec request, to access the virtual filesystem configured for the user in SSH Server settings. If you wish to develop an application that uses this interface, see <i>Components for use by developers</i>.</p>
+
+		<h1>BssActStateCheck.exe</h1>
+		<p>Starts briefly when an administrator logs in interactively to check whether the SSH Server's evaluation period is about to expire, or if it already has. If so, displays a warning message box.</p>
+
+		<h1>BvDump32.exe, BvDump64.exe</h1>
+		<p>In the event that an SSH Server process encounters a critical error, this executable is run to create a memory dump of the process that encountered the error. Any memory dumps are stored on the local computer under the current user's %LOCALAPPDATA% directory, under Bitvise\\BvDump. If you ever see an error of this type, please contact Bitvise.</p>
+
+        <h1>CiCpFips32.dll, CiCpFips64.dll, CryptoPP530Fips32.dll, CryptoPP530Fips64.dll</h1>
+        <p>The SSH Server's older cryptographic provider as used in 6.xx versions. CiCpFips32/64.dll serve as an interface to CryptoPP530Fips32/64.dll, a version of Crypto++ that originally received FIPS 140-2 validation under certificate 819.</p>
+        <p>This provider should only be used where needed. It contains known issues with timing side channels, which can permit remote private key compromise. Our software implements mitigations, but it is better to use the new provider, CiWinCng.</p>
+        <p>By default, this cryptographic provider is used on Windows XP and Windows Server 2003, where Windows CNG cryptography is not available. On later Windows versions, this provider can be selected by creating a registry value named "CryptoProvider", with string value "CiCpFips", under the registry key HKLM\Software\Wow6432Node\Bitvise on 64-bit systems, or HKLM\Software\Bitvise on 32-bit systems. This registry value will have machine-wide effect on Bitvise SSH Server, SSH Client, and FlowSsh versions 7.xx and higher.</p>
+
+		<h1>CiWinCng32.dll, CiWinCng64.dll</h1>
+		<p>The SSH Server's default cryptographic provider used on all recent versions of Windows, starting from Windows Vista and Windows Server 2008.</p>
+        <p>This provider uses <b>Windows CNG cryptography</b> for algorithms supported by Windows. It is augmented with <b>OpenSSL</b> and Crypto++ to support algorithms not supported by Windows.</p>
+        <p>If FIPS mode is enabled in Windows security policy, this provider uses <b>only</b> Windows CNG cryptography. In FIPS mode, only algorithms supported by Windows are available.</p>
+        <p>This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit. (<a href='http://www.openssl.org/'>http://www.openssl.org/</a>)</p>
+        <p>This product includes cryptographic software written by Eric Young (eay@cryptsoft.com).</p>
+        <p><a id="oslToggle" href="#oslToggle">[+] View OpenSSL Toolkit license</a></p>
+        <div style="display: none" id="oslText">
+            <textarea readonly rows="30" cols="90">
+
+  OpenSSL License
+  ---------------
+
+/* ====================================================================
+ * Copyright (c) 1998-2019 The OpenSSL Project.  All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in
+ *    the documentation and/or other materials provided with the
+ *    distribution.
+ *
+ * 3. All advertising materials mentioning features or use of this
+ *    software must display the following acknowledgment:
+ *    "This product includes software developed by the OpenSSL Project
+ *    for use in the OpenSSL Toolkit. (http://www.openssl.org/)"
+ *
+ * 4. The names "OpenSSL Toolkit" and "OpenSSL Project" must not be used to
+ *    endorse or promote products derived from this software without
+ *    prior written permission. For written permission, please contact
+ *    openssl-core@openssl.org.
+ *
+ * 5. Products derived from this software may not be called "OpenSSL"
+ *    nor may "OpenSSL" appear in their names without prior written
+ *    permission of the OpenSSL Project.
+ *
+ * 6. Redistributions of any form whatsoever must retain the following
+ *    acknowledgment:
+ *    "This product includes software developed by the OpenSSL Project
+ *    for use in the OpenSSL Toolkit (http://www.openssl.org/)"
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE OpenSSL PROJECT ``AS IS'' AND ANY
+ * EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE OpenSSL PROJECT OR
+ * ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+ * OF THE POSSIBILITY OF SUCH DAMAGE.
+ * ====================================================================
+ *
+ * This product includes cryptographic software written by Eric Young
+ * (eay@cryptsoft.com).  This product includes software written by Tim
+ * Hudson (tjh@cryptsoft.com).
+ *
+ */
+
+ Original SSLeay License
+ -----------------------
+
+/* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
+ * All rights reserved.
+ *
+ * This package is an SSL implementation written
+ * by Eric Young (eay@cryptsoft.com).
+ * The implementation was written so as to conform with Netscapes SSL.
+ *
+ * This library is free for commercial and non-commercial use as long as
+ * the following conditions are aheared to.  The following conditions
+ * apply to all code found in this distribution, be it the RC4, RSA,
+ * lhash, DES, etc., code; not just the SSL code.  The SSL documentation
+ * included with this distribution is covered by the same copyright terms
+ * except that the holder is Tim Hudson (tjh@cryptsoft.com).
+ *
+ * Copyright remains Eric Young's, and as such any Copyright notices in
+ * the code are not to be removed.
+ * If this package is used in a product, Eric Young should be given attribution
+ * as the author of the parts of the library used.
+ * This can be in the form of a textual message at program startup or
+ * in documentation (online or textual) provided with the package.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ * 3. All advertising materials mentioning features or use of this software
+ *    must display the following acknowledgement:
+ *    "This product includes cryptographic software written by
+ *     Eric Young (eay@cryptsoft.com)"
+ *    The word 'cryptographic' can be left out if the rouines from the library
+ *    being used are not cryptographic related :-).
+ * 4. If you include any Windows specific code (or a derivative thereof) from
+ *    the apps directory (application code) you must include an acknowledgement:
+ *    "This product includes software written by Tim Hudson (tjh@cryptsoft.com)"
+ *
+ * THIS SOFTWARE IS PROVIDED BY ERIC YOUNG ``AS IS'' AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ *
+ * The licence and distribution terms for any publically available version or
+ * derivative of this code cannot be changed.  i.e. this code cannot simply be
+ * copied and put under another distribution licence
+ * [including the GNU Public Licence.]
+ */
+
+</textarea>
+        </div>
+        <script>
+            const oslToggle = document.getElementById('oslToggle');
+            const oslText = document.getElementById('oslText');
+            const oslShowText = oslToggle.innerHTML;
+            let oslShow = false;
+            oslToggle.onclick = function() {
+                oslShow = !oslShow;
+                if (oslShow) {
+                    oslToggle.innerHTML = "[&ndash;] Collapse OpenSSL Toolkit license";
+                    oslText.style.display = "block";
+                } else {
+                    oslToggle.innerHTML = oslShowText;
+                    oslText.style.display = "none";
+                }
+            }
+        </script>
+	</div>
+
+    <br />
+    <br />
+	<div id="footer">
+		This content is Copyright &#169; 2001-2024 by Bitvise Limited. All rights reserved.<br>Unauthorized copying or distribution of any part or whole is prohibited.
+	</div>
+</body>
+</html>

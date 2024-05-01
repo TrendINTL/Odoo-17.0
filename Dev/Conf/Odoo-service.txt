@@ -1,0 +1,97 @@
+--------------------Bitnami----------------------------------------
+
+[Unit]
+Description=Odoo
+Documentation=http://www.odoo.com
+
+[Service]
+# Ubuntu/Debian convention:
+Type=simple
+User=bitnami
+ExecStart=/opt/bitnami/odoo/bin/odoo-bin -c /opt/bitnami/odoo/conf/odoo.conf
+
+[Install]
+WantedBy=default.target
+
+------
+
+Obtain the status of a service:
+
+sudo /opt/bitnami/ctlscript.sh status
+Call it without any service name arguments to start all services:
+
+sudo /opt/bitnami/ctlscript.sh start
+Or use it to restart a single service, such as Apache only, by passing the service name as argument:
+
+sudo /opt/bitnami/ctlscript.sh restart apache
+Use this script to stop all services:
+
+sudo /opt/bitnami/ctlscript.sh stop
+Restart the services by running the script without any arguments:
+
+sudo /opt/bitnami/ctlscript.sh restart
+---------------------------------------
+
+--------------------Ubuntu/Debian----------------------------------------
+[Unit]
+Description=Odoo
+Documentation=http://www.odoo.com
+
+[Service]
+# Ubuntu/Debian convention:
+Type=simple
+User=odoo
+ExecStart=/opt/odoo/odoo-bin -c /etc/odoo.conf
+
+[Install]
+WantedBy=default.target
+
+-------
+
+Obtain the status of a service:
+
+sudo service /opt/odoo/odoo.service status
+Call it without any service name arguments to start all services:
+
+sudo /opt/bitnami/ctlscript.sh start
+Or use it to restart a single service, such as Apache only, by passing the service name as argument:
+
+sudo /opt/bitnami/ctlscript.sh restart apache
+Use this script to stop all services:
+
+sudo /opt/bitnami/ctlscript.sh stop
+Restart the services by running the script without any arguments:
+
+sudo /opt/bitnami/ctlscript.sh restart
+---------------------------------------
+
+echo "Start Odoo service: sudo service $OE_CONFIG start"
+echo "Stop Odoo service: sudo service $OE_CONFIG stop"
+echo "Restart Odoo service: sudo service $OE_CONFIG restart"
+
+---------------------------------------
+
+-------------------------Ubuntu/Debian Original------------------------------------
+[Unit]
+Description=OpenBSD Secure Shell server
+Documentation=man:sshd(8) man:sshd_config(5)
+After=network.target auditd.service
+ConditionPathExists=!/etc/ssh/sshd_not_to_be_run
+
+[Service]
+EnvironmentFile=-/etc/default/ssh
+ExecStartPre=/usr/sbin/sshd -t
+ExecStart=/usr/sbin/sshd -D $SSHD_OPTS
+ExecReload=/usr/sbin/sshd -t
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=on-failure
+RestartPreventExitStatus=255
+Type=notify
+RuntimeDirectory=sshd
+RuntimeDirectoryMode=0755
+
+
+[Install]
+WantedBy=multi-user.target
+Alias=sshd.service
