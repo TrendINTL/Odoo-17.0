@@ -1,3 +1,4 @@
+https://www.cybrosys.com/blog/how-to-install-odoo-17-on-ubuntu-20-04-lts-server
 How to Install Odoo 17 on Ubuntu 20.04 LTS Server
 Technical Odoo 17
 
