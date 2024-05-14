@@ -1,0 +1,63 @@
+
+
+Warning, your Odoo database manager is not protected. To secure it, we have generated the following master password for it:
+
+azbs-7dmg-xfwt
+
+You can change it below but be sure to remember it, it will be asked for future operations on databases
+
+Odoo.Alus2024
+
+
+user: testing.hoods@gmail.com
+Pass: Odoo.Alus2024
+
+Access token for the IOT
+0f60-5500-8244-1010
+
+
+Filezilla Extracting Pass
+Password: www.mysoftwarefree.com
+
+a.ouf
+a.ouf@splendor.site
+id_rsa
+Ouf@OSPL2023
+
+s[3Fi1@<}sns
+
+Ouf@BlueH2024
+
+xffbiamy@162.241.253.111
+
+xffbiamy
+
+162.241.253.111
+
+id_rsa@162.241.253.111
+
+https://www.python.org/ftp/python/3.9.19/Python-3.9.19.tgz
+
+wget http://www.python.org/ftp/python/3.9.2/Python-3.9.2.tgz
+
+
+id_rsa2
+Generating public/private rsa key pair.
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in /home4/xffbiamy/.ssh/id_rsa2.
+Your public key has been saved in /home4/xffbiamy/.ssh/id_rsa2.pub.
+The key fingerprint is:
+SHA256:o1nHRQqt4CiV2N8KBsvdrjwpVHElIDcVwgX0ozdyFn4 
+The key's randomart image is:
++---[RSA 2048]----+
+|  .=B*=oo.  .    |
+|  oo*+o. ..o     |
+| . = B+o .. .    |
+|  + *o+oo. .     |
+|   +oo*.E o      |
+|  .  =o* o       |
+| . . oo          |
+|  . =            |
+|   . .           |
++----[SHA256]-----+

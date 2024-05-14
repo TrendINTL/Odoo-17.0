@@ -1,3 +1,5 @@
+root pass:
+Root@HVPS2024
 sudo adduser odoo
 odoo Pass:
 123456

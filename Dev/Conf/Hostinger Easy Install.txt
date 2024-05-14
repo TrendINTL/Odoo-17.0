@@ -1,0 +1,48 @@
+root pass:
+Root@HVPS2024
+sudo adduser odoo
+odoo Pass:
+123456
+sudo usermod -aG sudo odoo
+sudo su odoo
+python3 --version
+pip3 --version
+sudo apt install python3-pip | or sudo apt-get install -y python3-pip
+/sudo reboot
+sudo apt-get update
+sudo apt-get upgrade
+/sudo reboot
+sudo apt-get install git-all
+/sudo reboot
+sudo apt install postgresql postgresql-client | or sudo apt-get install postgresql
+sudo service postgresql restart
+/sudo reboot
+sudo -u postgres createuser -d -R -S odoo
+
+sudo -u postgres dropdb
+or
+sudo systemctl disable postgresql
+sudo apt-get purge postgresql-
+sudo apt-get autoremove
+sudo rm -rf /var/lib/postgresql
+sudo rm -rf /etc/postgresql
+sudo find / -iname "*postgres*" -exec rm -rf {} \;
+dpkg -l | grep postgresql
+sudo apt remove --purge postgresql
+sudo ls -l /var/lib/dpkg/info | grep -i postgresql
+sudo mv /var/lib/dpkg/info/postgresql.* /tmp
+sudo apt update
+sudo apt autoremove
+sudo apt clean
+
+sudo dpkg -i --force-overwrite /var/cache/apt/archives/postgresql
+
+
+
+sudo apt-get remove --purge postgresql | or sudo dpkg --remove postgresql-
+sudo reboot
+sudo -u postgres createuser -d -R -S odoo
+sudo service postgresql restart
+alter user odoo with password '123456'
+createdb odoo
+
