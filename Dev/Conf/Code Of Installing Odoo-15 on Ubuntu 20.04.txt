@@ -95,7 +95,7 @@ You're done! As the warning dialog says when you start the operation, it may tak
 11- wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-2/wkhtmltox_0.12.6.1-2.jammy_amd64.deb
 	wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.focal_amd64.deb
 	- ls to know & copy the file name after download to install it....
-	- sudo dpkg -i wkhtmltox_0.12.6.1-2.jammy_amd64.deb  ----------->> Install wkhtmltopdf , wkhtmltox_0.12.6-1.focal_amd64.deb for ubuntu 20.04 amd64 focal
+	- for ubuntu 22.04 amd64 jammy : sudo dpkg -i wkhtmltox_0.12.6.1-2.jammy_amd64.deb  ----------->> Install wkhtmltopdf , for ubuntu 20.04 amd64 focal: sudo dpkg -i wkhtmltox_0.12.6-1.focal_amd64.deb
 		-p --disable-smart-shrinking
 13- sudo apt install npm -y  ---------------->> install node java script
 14- sudo npm cache clean -f       ------------>> to clean cache
@@ -112,7 +112,7 @@ You're done! As the warning dialog says when you start the operation, it may tak
 24- sudo apt-get install postgresql
 25- after change user if error to root then run: sudo -u postgres createuser -d -R -S $USER  ---------->> to create postgres database user
 26- after returned to odoo user run: psql -w postgres    ------------>> cntrl+d or q to exit to entered into postgresql database
-27- alter user postgres with password '123456';	------------>> to change database user password
+27- ;	------------>> to change database user password
 28- sudo service postgresql restart 	--------------->> restart postgres
 29- psql -l 	--------->> showing the databases
 30- cd /opt

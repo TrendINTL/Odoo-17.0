@@ -141,7 +141,7 @@ Step - 10 : Install node js
 
 ------------------------------------------------------------------------------------------------------
 Step-6: Create a system user
-	- sudo adduser --system --home=/opt/odoo16 --group odoo16 ------->> no need if you create before as above
+	- sudo adduser --system --home=/opt/odoo --group odoo ------->> no need if you create before as above
 Make a system user for security and to carry out Odoo tasks. This user will only have limited access to all of Odoo's files and directories.
 Step-7: Get Odoo16 community from git
 The Odoo source file needs to be uploaded to our server right now. Install git on the server first.
@@ -174,9 +174,10 @@ Step 10: create log file
 	- sudo chown odoo:root /var/log/odoo
 	- sudo nano /var/log/odoo/odoo16.log
 	- sudo chown odoo:root /var/log/odoo/odoo16.log
+	- sudo 
 
 ------------------------------------------------------------------------------------------
-Step-11:Setup Conf file
+Step-11: Setup Conf file
 Odoo requires certain information in order to function, such as the database user, password, locations of add-ons, etc. The configuration file will also have these available. Thus, the first thing we should do is create an Odoo configuration file. You can also find an example configuration file in the Odoo folder, which you can copy to the desired location. Configuration files are typically kept in /etc.
 The configuration file should be copied to /etc.
 	-------------------------- sudo cp /opt/odoo16/debian/odoo.conf /etc/odoo16.conf
@@ -236,7 +237,7 @@ Step-12:Run Odoo16
 		 sudo service odoo16 restart
 		 sudo service odoo16 stop
 Use the above command to launch the Odoo instance. Then, use the following command to see the service's current status. Furthermore, the installation of Odoo was successful if it is shown as active.
-	- sudo systemctl status odoo17.service
+	- sudo systemctl status odoo16.service
 Now, you can access Odoo by entering the following URL. It will reroute to the database creation page.
 "http://<your_domain_or_IP_address>:8069"
 Check Odoo logs
