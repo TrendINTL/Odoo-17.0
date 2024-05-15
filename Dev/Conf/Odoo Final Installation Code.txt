@@ -1,3 +1,15 @@
+root pass:
+Root@HVPS2024
+sudo adduser odoo
+odoo Pass:
+123456
+sudo usermod -aG sudo odoo
+sudo su odoo
+**************to change file mode*********************
+3. Make the script executable
+sudo chmod +x odoo_install.sh
+******************************************************
+----------------------------------------------------------------------------
 https://www.cybrosys.com/blog/how-to-install-odoo-17-on-ubuntu-20-04-lts-server
 How to Install Odoo 17 on Ubuntu 20.04 LTS Server
 Technical Odoo 17
@@ -7,67 +19,182 @@ Step -1: Login to the Ubuntu server via SSH
 	- ssh username@IP_Address -p Port_number 
 Connect via SSH to your server. 
 Step-2: Update Server
+-------------------------------------------------------------------------------
 	- sudo apt-get update
 	- sudo apt-get upgrade
+-------------------------------------------------------------------------------
 Make sure the system is up to date.
 Step-3: Secure Server
 	- sudo apt-get install openssh-server fail2ban
 SSH assaults can be avoided by utilizing Fail2ban.
 Step-4: Install Packages and libraries
 Install Odoo's necessary Python packages. Set up pip3.
+------------------------------------------------------
+Steo - 4: Install pip
 	- sudo apt-get install -y python3-pip
+------------------------------------------------------
 Use the methods below to install web dependencies and packages. Verify that every package has been installed correctly and without any problems.
+-----------------------------------------------------------------------------------
+Step - 5 : Install git
+	- sudo apt-get install git-all
+	- sudo mkdir /opt/odoo16	------->> I think no need for one instance
+	- cd odoo16
+	- sudo git clone https://github.com/odoo/odoo.git -b 16.0 --depth=1
+	- ------- git clone https://www.github.com/odoo/odoo --depth 1 --branch 16.0 --single-branch ----------???
+	- python3 --version
+	- pip3 --version
+--------------------------------------------------------------------------------------------------
+Step-6: Setup Database Server
+As previously mentioned, PostgreSQL is the database server used by Odoo. 
+	19- sudo apt-get install libpq-dev libjpeg-dev    --------------->> install required libraries for postgresql
+	20- sudo apt-get install curl ca-certificates gnupg    -------------->> install certificates required for postgresql install
+------------------------------------------------------
+	- sudo apt update && sudo apt-get update && sudo apt upgrade && sudo apt-get upgrade
+	24- sudo apt-get install postgresql
+	- sudo su
+	- reboot
+	25- sudo -u postgres createuser -d -R -S odoo ---------->> to create postgres database user because the same name of the system, no need for password login to psql db user
+	26- createdb odoo 	------------->>> Note: the databse name will be odoo and owner will be odoo also
+	-   If user in not the same name: after returned to odoo user run: ***very important to create db role******* - psql -w odoo <-*"db name"*    ------------>> cntrl+d or q to exit to entered into postgresql database
+	- if you want to enter postgres coding just write: psql 	----->>> the cntrl+d to close postgresql
+	27- ***no need for the same system user*** - alter user postgres with password '123456';	------------>> to change database user password then cntrl+d to close postgresql
+	28- sudo service postgresql restart 	--------------->> restart postgres cntrl+d to close postgresql
+	29- psql -l 	--------->> showing the databases then q to exit databases
+	- sudo service postgresql restart
+	- sudo service postgresql status    ----------->> q to exit
+	- sudo su
+	- reboot
+
+--------------------------------------------------------------------
+or
+createuser --createdb --username postgres --no-createrole --no-superuser --pwprompt odoo16 ----->> Password: 123456
+The user and the password are needed for the conf file. Postgres uses a distinct system user to perform tasks. To switch between users, run sudo su -postgres. Next, create a database user for Odoo 17.
+	- psql
+	- ALTER USER odoo WITH SUPERUSER;
+	- \q exit portgresql command
+If the user runs the aforementioned command, superuser access rights will be guaranteed. Next, log out of Postgres and PSQL.
+	- \q
+	exit
+	- psql -l ------->> see database cntrl+d to close postgresql
+	- sudo service postgresql restart
+	- sudo su
+	- reboot
+
+--------------------------------------------------------------------------------------
+Step - 7 : Install Dependencies
+	- cd /opt/odoo16/odoo
+	- sed -n -e '/^Depends:/,/^Pre/ s/ python3-\(.*\),/python3-\1/p' debian/control | sudo xargs apt-get install -y
+or
+	- sudo apt install python3-pip libldap2-dev libpq-dev libsasl2-dev
+	- sudo su
+	- reboot
+
+--------------------------------------------------------------------------------------
+Step - 8 : install requirements
+	- cd /opt/odoo16/odoo
+	- ls -a -lh 	---------------->>> to insure the file requirements.txt is here
+	- pip install -r requirements.txt 	-------------->>> why pyproject.toml not installed correctly???
+or
+	- sudo apt-get install git python3-dev python3-pip python3-pypdf2 build-essential libxslt1-dev libxml2-dev libzip-dev libldap2-dev libldap2-dev libtiff5-dev libssl-dev libsasl2-dev liblcms2-dev libjpeg8-dev libopenjp2-7-dev zlib1g-dev libfreetype6-dev libwebp-dev libharfbuzz-dev libfribidi-dev libxcb1-dev libpq-dev
+	- sudo apt-get install git libfontconfig1 libxrender1 fontconfig xfonts-base xfonts-75dpi libjpeg-turbo8
 	- sudo apt-get install python-dev python3-dev libxml2-dev libxslt1-dev zlib1g-dev libsasl2-dev libldap2-dev build-essential libssl-dev libffi-dev libmysqlclient-dev libjpeg-dev libpq-dev libjpeg8-dev liblcms2-dev libblas-dev libatlas-base-dev
+	- pip install Pypdf2
+	- lsb_release -a 	------------------->>>> to know ubuntu version & details
+	- dpkg --print-architecture  	------------->> to know if ubuntu amd64 ot armd64
+	- sudo su 
+-------------------------------------------------------------------------------------------------
+Step - 9 : install pdf requirements
+	- sudo apt install wkhtmltopdf	--------------->> Install wkhtmltopdf Package
+
+or	- wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-2/wkhtmltox_0.12.6.1-2.jammy_amd64.deb
+	- sudo dpkg -i wkhtmltox_0.12.6.1-2.jammy_amd64.deb
+
+---------------------------------------------------------------------------------------------------------
+	- pip install pyproject
+	- pip install lxml
 	- sudo apt-get install -y npm
 	- sudo ln -s /usr/bin/nodejs /usr/bin/node
 	- sudo npm install -g less less-plugin-clean-css
 	- sudo apt-get install -y node-less
-Step-5: Setup Database Server
-As previously mentioned, PostgreSQL is the database server used by Odoo. 
-	- sudo apt-get install postgresql
-Setup and install the database. Establish a user to manage the database
-	- sudo su - postgres
-createuser --createdb --username postgres --no-createrole --no-superuser --pwprompt odoo17
-The user and the password are needed for the conf file. Postgres uses a distinct system user to perform tasks. To switch between users, run sudo su -postgres. Next, create a database user for Odoo 17.
-	- psql
-	- ALTER USER odoo17 WITH SUPERUSER;
-If the user runs the aforementioned command, superuser access rights will be guaranteed. Next, log out of Postgres and PSQL.
-	- \q
-	exit
+-----------------------------------------------------------------------------------------------------
+Step - 10 : Install node js
+	13- sudo apt install npm -y  ---------------->> install node java script
+	14- sudo npm cache clean -f       ------------>> to clean cache
+	15- sudo npm install -g n       ----------->>
+	16- sudo n stable           --------->> install stable node js
+	17- sudo npm install -g npm    ------------->>
+	18- sudo npm install rtlcss  -g    --------------->> install right to left node js library
+------------------------------------------------------------------------------------------------------
+
+	- ./odoo-bin --save --stop-after-init
+	- python3 odoo-bin server --save -c odoo16.conf
+	- python3 odoo-bin --addons-path=addons -d odoo
+	- cd
+	- sudo cp .odoorc /opt/odoo16/odoo/odoo16.conf
+	- ./odoo-bin --addons-path=addons -d -i
+
+
+
+
+
+	- python3 ./odoo-bin --addons-path=addons -d -i
+
+------------------------------------------------------------------------------------------------------
 Step-6: Create a system user
-	- sudo adduser --system --home=/opt/odoo17 --group odoo17
+	- sudo adduser --system --home=/opt/odoo16 --group odoo16 ------->> no need if you create before as above
 Make a system user for security and to carry out Odoo tasks. This user will only have limited access to all of Odoo's files and directories.
-Step-7: Get Odoo17 community from git
+Step-7: Get Odoo16 community from git
 The Odoo source file needs to be uploaded to our server right now. Install git on the server first.
 	- sudo apt-get install git
 The file will then be added to the directory when you change the system user to Odoo17.
-	- sudo su - odoo17 -s /bin/bash
+	- sudo su - odoo16 -s /bin/bash
 The operator dot(.) at the end of the command is used to clone the files to the current user's home directory, which is /opt/odoo and was specified at the time of user creation. The following command will clone the source directory.
-	- git clone https://www.github.com/odoo/odoo --depth 1 --branch 17.0 --single-branch .
+	- sudo mkdir /opt/odoo16
+	- cd odoo16
+	- git clone https://www.github.com/odoo/odoo --depth 1 --branch 16.0 --single-branch .
 Proceed with the installation after logging out of the user now.
 	exit
 Step-8:Install Required Python Packages
-	- sudo pip3 install -r /opt/odoo/requirements.txt
+	- cd odoo
+	- ls -a -lh
+	- sudo pip3 install -r requirements.txt
+	- pip install pyproject.toml
 Step-9:Install Wkhtmltopdf
 Reports can be printed from Odoo as PDF files. Wkhtmltopdf facilitates the creation of PDF reports from HTML data. Additionally, the report engine converts the Qweb template reports to HTML format, and Wkhtmltopdf creates the PDF report:
-	- sudo wget https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.bionic_amd64.deb
-	- sudo dpkg -i wkhtmltox_0.12.5-1.bionic_amd64.deb
+	- wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-2/wkhtmltox_0.12.6.1-2.jammy_amd64.deb
+	- ----- sudo wget https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.bionic_amd64.deb
+	- sudo dpkg -i wkhtmltox_0.12.6.1-2.jammy_amd64.deb
+	- ----- sudo dpkg -i wkhtmltox_0.12.5-1.bionic_amd64.deb
 	- sudo apt install -f
-Step-10:Setup Conf file
+----------------------------------------------------------------------------------------
+Step 10: create log file
+	- sudo su
+	- mkdir /var/log/odoo
+	- sudo chown root:odoo /var/log/odoo
+	- sudo chown odoo:root /var/log/odoo
+	- sudo nano /var/log/odoo/odoo16.log
+	- sudo chown odoo:root /var/log/odoo/odoo16.log
+
+------------------------------------------------------------------------------------------
+Step-11:Setup Conf file
 Odoo requires certain information in order to function, such as the database user, password, locations of add-ons, etc. The configuration file will also have these available. Thus, the first thing we should do is create an Odoo configuration file. You can also find an example configuration file in the Odoo folder, which you can copy to the desired location. Configuration files are typically kept in /etc.
 The configuration file should be copied to /etc.
-	- sudo cp /opt/odoo17/debian/odoo.conf /etc/odoo17.conf
-	- sudo nano /etc/odoo17.conf
+	-------------------------- sudo cp /opt/odoo16/debian/odoo.conf /etc/odoo16.conf
+	-------------------------- sudo cp .odoorc /opt/odoo16/odoo/odoo16.conf
+	-------------------------- sudo nano /opt/odoo16/odoo/odoo16.conf
+Additionally, create an Odoo log directory and set permissions for it to assist you in identifying Odoo-related problems.
+	- sudo mkdir /var/log/odoo
+	- sudo chown odoo:root /var/log/odoo
 *******Update the conf file same as shown in the code below.*******
 [options]
    ; This is the password that allows database operations:
-   admin_passwd = admin
+   admin_passwd = 123456
    db_host = False
    db_port = False
-   db_user = odoo17
-   db_password = False
-   addons_path = /opt/odoo17/addons
-   logfile = /var/log/odoo/odoo17.log
+   db_user = odoo
+   db_password = 123456
+   addons_path = /opt/odoo16/odoo/addons
+   logfile = /var/log/odoo/odoo16.log
 -----------------------------------------------
 Prior to conducting the operations, the following parameters need to be configured.
 The master password for Odoo is admin_passwd, which can be used to create, delete, duplicate, and perform a variety of other database management operations.
@@ -79,41 +206,45 @@ addons_path: Provide the path to the directories containing the Odoo addon direc
 It is possible to list more than one directory, separated by commas:
 Logfile: the path to the log file. For example, addons_path = /opt/odoo17/addons, /opt/odoo17/enterprise, /opt/odoo17/custom.
 Next, you need to grant system user Odoo access to the conf file.
-	- sudo chown odoo17: /etc/odoo17.conf
-	- sudo chmod 640 /etc/odoo17.conf
-Additionally, create an Odoo log directory and set permissions for it to assist you in identifying Odoo-related problems.
-	- sudo mkdir /var/log/odoo
-	- sudo chown odoo17:root /var/log/odoo
-Step-11:Odoo service file
+	- sudo chown odoo: /opt/odoo16/odoo/odoo16.conf	--------------->>> very important
+	- sudo chmod 640 /opt/odoo16/odoo/odoo16.conf   --------------->>> very important
+---------------------------------------------------------------------------------------------------------------
+Step-12:Odoo service file
 We have to create a service to run Odoo. Let’s create a service file ‘odoo.service’ in /etc/systemd/system.
-sudo nano /etc/systemd/system/odoo17.service
+--------------------------------------------------------
+	- sudo nano /etc/systemd/system/odoo16.service
+--------------------------------------------------------
 **************Add the following aspects to the newly created service file.**********************
 [Unit]
-   Description=Odoo17
+   Description=Odoo16
    Documentation=http://www.odoo.com
    [Service]
    # Ubuntu/Debian convention:
    Type=simple
-   User=odoo17
-   ExecStart=/opt/odoo17/odoo-bin -c /etc/odoo17.conf
+   User=odoo
+   ExecStart=/opt/odoo16/odoo/odoo-bin -c /opt/odoo16/odoo/odoo16.conf
    [Install]
    WantedBy=default.target
 ---------------------------------------------------------------------------------------------------------------
 Finally, set the root user's permissions for this service file.
-	- sudo chmod 755 /etc/systemd/system/odoo17.service
-	- sudo chown root: /etc/systemd/system/odoo17.service
-Step-12:Run Odoo17
-	- sudo systemctl start odoo17.service
+	- sudo chmod 755 /etc/systemd/system/odoo16.service
+	- sudo chown root: /etc/systemd/system/odoo16.service
+Step-12:Run Odoo16
+	- sudo systemctl start odoo16.service
+	- or       sudo service odoo16 start
+		 sudo service odoo16 status
+		 sudo service odoo16 restart
+		 sudo service odoo16 stop
 Use the above command to launch the Odoo instance. Then, use the following command to see the service's current status. Furthermore, the installation of Odoo was successful if it is shown as active.
 	- sudo systemctl status odoo17.service
 Now, you can access Odoo by entering the following URL. It will reroute to the database creation page.
 "http://<your_domain_or_IP_address>:8069"
 Check Odoo logs
 If you are experiencing problems with the installation or for any other reason, you can use the following command to examine the logs of the Odoo platform that you have configured. You can view the real-time logs in the terminal by using this command.
-	- sudo tail -f /var/log/odoo/odoo.log
+	- sudo tail -f /var/log/odoo16/odoo.log
 Finally, use the following command to start the Odoo service automatically after restarting the server:
-	- sudo systemctl enable odoo17.service
+	- sudo systemctl enable odoo16.service
 Use the following command to restart the Odoo service if you have made any modifications to the add-ons so that your instance will reflect the updates
-	- sudo systemctl restart odoo17.service
+	- sudo systemctl restart odoo16.service
 After installing Odoo successfully, you can start your career in Odoo development and learn more about it by using our Odoo Development Tutorial App, which you can access from the Odoo Apps Page.
 To read more about installing Odoo 16 on Ubuntu 20.04 LTS, refer to our blog How to Install Odoo 16 on Ubuntu 20.04 LTS

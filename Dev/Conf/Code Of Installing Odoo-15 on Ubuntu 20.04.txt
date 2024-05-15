@@ -112,7 +112,7 @@ You're done! As the warning dialog says when you start the operation, it may tak
 24- sudo apt-get install postgresql
 25- after change user if error to root then run: sudo -u postgres createuser -d -R -S $USER  ---------->> to create postgres database user
 26- after returned to odoo user run: psql -w postgres    ------------>> cntrl+d or q to exit to entered into postgresql database
-27- alter user postgres with password 'postgres';	------------>> to change database user password
+27- alter user postgres with password '123456';	------------>> to change database user password
 28- sudo service postgresql restart 	--------------->> restart postgres
 29- psql -l 	--------->> showing the databases
 30- cd /opt

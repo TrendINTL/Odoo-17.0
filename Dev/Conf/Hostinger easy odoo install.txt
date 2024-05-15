@@ -1,0 +1,28 @@
+Master Pass:
+9mrb-vguq-qayb
+
+changed to:
+O.H0524
+
+aouf.wm@gmail.com
+123456
+
+root
+Root@HVPS2024
+
+024-05-14 11:18:11,568 5748 INFO ? odoo: Odoo version 17.0-20240514
+2024-05-14 11:18:11,568 5748 INFO ? odoo: Using configuration file at /etc/odoo/odoo.conf
+2024-05-14 11:18:11,568 5748 INFO ? odoo: addons paths: ['/usr/lib/python3/dist-packages/odoo/addons',>
+2024-05-14 11:18:11,568 5748 INFO ? odoo: database: odoo@default:default
+2024-05-14 11:18:11,664 5748 INFO ? odoo.addons.base.models.ir_actions_report: You need Wkhtmltopdf to>
+2024-05-14 11:18:12,024 5748 INFO ? odoo.service.server: HTTP service (werkzeug) running on ubuntu-22.>
+2024-05-14 11:18:15,340 5748 INFO ? odoo.service.server: Initiating shutdown
+2024-05-14 11:18:15,340 5748 INFO ? odoo.service.server: Hit CTRL-C again or send a second signal to f>
+2024-05-14 11:18:15,530 5748 INFO ? odoo.sql_db: ConnectionPool(used=0/count=0/max=64): Closed 2 conne>
+2024-05-14 11:18:16,104 5830 INFO ? odoo: Odoo version 17.0-20240514
+2024-05-14 11:18:16,104 5830 INFO ? odoo: Using configuration file at /etc/odoo/odoo.conf
+2024-05-14 11:18:16,104 5830 INFO ? odoo: addons paths: ['/usr/lib/python3/dist-packages/odoo/addons',>
+2024-05-14 11:18:16,104 5830 INFO ? odoo: database: odoo@default:default
+2024-05-14 11:18:16,169 5830 INFO ? odoo.addons.base.models.ir_actions_report: You need Wkhtmltopdf to>
+2024-05-14 11:18:16,291 5830 INFO ? odoo.service.server: HTTP service (werkzeug) running on ubuntu-22.>
+2024-05-14 11:18:16,587 5830 INFO ? werkzeug: 169.254.0.1
