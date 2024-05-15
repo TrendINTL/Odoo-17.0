@@ -26,3 +26,21 @@ Root@HVPS2024
 2024-05-14 11:18:16,169 5830 INFO ? odoo.addons.base.models.ir_actions_report: You need Wkhtmltopdf to>
 2024-05-14 11:18:16,291 5830 INFO ? odoo.service.server: HTTP service (werkzeug) running on ubuntu-22.>
 2024-05-14 11:18:16,587 5830 INFO ? werkzeug: 169.254.0.1
+
+
+
+Conf File ---------
+#####################################################################################
+[options]
+db_host = False
+db_port = False
+db_user = odoo
+db_password = False
+addons_path = /usr/lib/python3/dist-packages/odoo/addons
+default_productivity_apps = True
+xmlrpc_port = 8069
+admin_passwd = $pbkdf2-sha512$600000$3vtfS8l5L6XUOofQ.j.ntA$z56./C15zCcxZRB5HW7>
+#########################################################################################
+
+
+
