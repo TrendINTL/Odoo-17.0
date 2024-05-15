@@ -6,6 +6,8 @@ odoo Pass:
 sudo usermod -aG sudo odoo
 sudo su odoo
 python3 --version
+
+sudo apt-get install python3-apt --reinstall
 pip3 --version
 sudo apt install python3-pip | or sudo apt-get install -y python3-pip
 /sudo reboot
