@@ -1,0 +1,12 @@
+sudo su odoo
+cd /opt/odoo16/odoo/addons
+wget https://github.com/TrendINTL/Odoo-Alu-Systems/tree/main/Dev/Community%20Addons%20Modules/base_account_budget
+wget https://github.com/TrendINTL/Odoo-Alu-Systems/tree/main/Dev/Community%20Addons%20Modules/base_accounting_kit
+
+sudo reboot
+
+sudo chmod 755 /opt/odoo16/odoo/addons/base_account_budget
+sudo chown odoo:root /opt/odoo16/odoo/addons/base_account_budget
+sudo chmod 755 /opt/odoo16/odoo/addons/base_accounting_kit
+sudo chown odoo:root /opt/odoo16/odoo/addons/base_accounting_kit
+ls -a -lh
