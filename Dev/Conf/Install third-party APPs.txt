@@ -1,5 +1,8 @@
 sudo su odoo
 cd /opt/odoo16/odoo/addons
+cd /root/.local/share/Odoo/addons/16.0
+apt install unzip
+
 wget https://github.com/TrendINTL/Odoo-Alu-Systems/tree/main/Dev/Community%20Addons%20Modules/base_account_budget
 wget https://github.com/TrendINTL/Odoo-Alu-Systems/tree/main/Dev/Community%20Addons%20Modules/base_accounting_kit
 
@@ -10,3 +13,18 @@ sudo chown odoo:root /opt/odoo16/odoo/addons/base_account_budget
 sudo chmod 755 /opt/odoo16/odoo/addons/base_accounting_kit
 sudo chown odoo:root /opt/odoo16/odoo/addons/base_accounting_kit
 ls -a -lh
+
+
+
+/opt/odoo16/custom_modules
+sudo chown odoo:root muk_web_theme-16.0.1.0.7.zip
+sudo chmod +X muk_web_theme-16.0.1.0.7.zip
+unzip /opt/odoo16/odoo/addons/muk_web_theme-16.0.1.0.7.zip /opt/odoo16/odoo/addons
+unzip /opt/odoo16/odoo/odoo/addons/muk_web_theme-16.0.1.0.7.zip /opt/odoo16/odoo/odoo/addons
+
+
+ps aux||grep odoo
+
+sudo apt install nginx -y
+
+cd /etc/nginx/sites-enabled
