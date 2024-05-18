@@ -1,26 +1,37 @@
 sudo su odoo
-cd /opt/odoo16/odoo/addons
-cd /root/.local/share/Odoo/addons/16.0
-apt install unzip
+sudo mkdir /opt/odoo16/addons
+sudo chown odoo:odoo /opt/odoo16/addons
 
-wget https://github.com/TrendINTL/Odoo-Alu-Systems/tree/main/Dev/Community%20Addons%20Modules/base_account_budget
-wget https://github.com/TrendINTL/Odoo-Alu-Systems/tree/main/Dev/Community%20Addons%20Modules/base_accounting_kit
+==================================================
+If You are locally on Ubuntu system: --->>> RUN
+==================================================
 
-sudo reboot
+sudo scp -r base_account_budget odoo@195.35.28.250//opt/odoo16/addons
+or
+wget https://github.com/TrendINTL/Odoo-Alu-Systems/tree/main/Dev/Community_Addons_Modules/base_account_budget
+wget https://github.com/TrendINTL/Odoo-Alu-Systems/tree/main/Dev/Community_Addons_Modules/base_accounting_kit
 
-sudo chmod 755 /opt/odoo16/odoo/addons/base_account_budget
-sudo chown odoo:root /opt/odoo16/odoo/addons/base_account_budget
-sudo chmod 755 /opt/odoo16/odoo/addons/base_accounting_kit
-sudo chown odoo:root /opt/odoo16/odoo/addons/base_accounting_kit
-ls -a -lh
+make shore that the owner is odoo:odoo & its preffered to login by odoo SSH user
+sudo chown odoo:odoo /opt/odoo16/odoo/addons/base_account_budget
+----------------------------------------------------------------------
+=================================
+If you are using windows system:
+=================================
+
+1- Download WinSCP from
+	https://www.geeksforgeeks.org/how-to-download-and-install-winscp-on-windows/
+2- Install it
+3- Import ssh keys from Putty
+4- Open root/opt/odoo16/addons
+5- Drag & Drop your folder into WinSCP addons folder
 
 
-
-/opt/odoo16/custom_modules
-sudo chown odoo:root muk_web_theme-16.0.1.0.7.zip
-sudo chmod +X muk_web_theme-16.0.1.0.7.zip
-unzip /opt/odoo16/odoo/addons/muk_web_theme-16.0.1.0.7.zip /opt/odoo16/odoo/addons
-unzip /opt/odoo16/odoo/odoo/addons/muk_web_theme-16.0.1.0.7.zip /opt/odoo16/odoo/odoo/addons
+sudo service odoo16 status
+sudo service odoo16 stop
+sudo service odoo16 status
+sudo service odoo16 start
+sudo service odoo16 status
+sudo service odoo16 restart
 
 
 ps aux||grep odoo
