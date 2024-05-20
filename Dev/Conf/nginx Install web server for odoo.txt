@@ -4,6 +4,8 @@ ls -a -lh
 cd sites-available
 ls -a -lh
 sudo nano odoo16.conf
+sudo chmod 755 odoo16.conf
+sudo chown odoo:root odoo16.conf
 
 ========================================================
 Copy this and paste into file /etc/nginx/sites-available
@@ -22,7 +24,7 @@ server 127.0.0.1:8072;
 
 server {
 listen 80;
-server_name odoo16.trend-ai.tech;
+server_name 195.35.28.250;
 
 proxy_read_timeout 720s;
 proxy_connect_timeout 720s;
@@ -36,13 +38,13 @@ proxy_set_header X-Forwarded-Proto $scheme;
 proxy_set_header X-Real-IP $remote_addr;
 
 # log
-access_log /var/log/nginx/odoo16.access.log;
-error_log /var/log/nginx/odoo16.error.log;
+access_log /var/log/nginx/odoo.access.log;
+error_log /var/log/nginx/odoo.error.log;
 
 # Redirect requests to odoo backend server
 location / {
 proxy_redirect off;
-proxy_pass http://odoo16;
+proxy_pass http://odoo;
 }
 location /longpolling {
 proxy_pass http://odoochat;
@@ -71,7 +73,17 @@ ls -a -lh	===>>> to insure odoo16.conf file created
 cd /etc/nginx/sites-enabled
 ls -a -lh	==========>>> you will find a copy of odoo16.conf file
 --------------------RUN NGINX WEB SERVER-------------------------------------------------------
+
+
 sudo nginx -t
+
+cd /opt/odoo16/odoo
+proxy_mode = True
+
+sudo service apache2 status
+sudo service apache2 stop
+sudo service apache2 status
+
 sudo service nginx status
 sudo service nginx stop
 sudo service nginx status
@@ -79,15 +91,74 @@ sudo service nginx start
 sudo service nginx status
 sudo service nginx restart
 sudo service nginx status
----------------------------------TEST LOG FILE--------------------------------------------------
-sudo tail -f odoo16.access.log
-sudo tail -f odoo16.error.log
-proxy_mode = False
 
+sudo service odoo16 status
+sudo service odoo16 stop
+sudo service odoo16 status
+sudo service odoo16 start
+sudo service odoo16 status
+
+---------------------------------TEST LOG FILE--------------------------------------------------
+sudo tail -f /var/log/nginx/odoo.access.log
+sudo tail -f /var/log/nginx/odoo.error.log
+
+
+
+sudo nano odoo16.conf
 cd /etc/nginx/sites-available
 sudo chmod 755 odoo16.conf
 sudo chown odoo:odoo odoo16.conf
 sudo rm -rf odoo16.conf
+
+
+===================================================================================================================
+TO RUN MULTI-PROCCESSING WORKERS IN ODOO SERVER
+===================================================================================================================
+ps aux || grep odoo16
+cd /opt/odoo16/odoo
+sudo nano odoo16.conf
+worker = 4	=====>>>>  Rule of thumb : (#CPU * 2) + 1 & Cron workers need CPU & 1 worker ~= 6 concurrent users
+sudo service odoo16 restart
+
+===================================================================================================================
+TO ADD DOMAIN NAME INSTEAD OD IP ADDRESS TO ODOO SERVER
+===================================================================================================================
+
+1- Login to your host
+2- Go to domains
+3- Go to DNS/Nameservers
+4- in the top of screen search for DNS A record
+5- Change as below
+	Type	Name	Priority	Content/IP			TTL
+	A	@	0		195.35.28.250		no change
+
+
+===================================================================================================================
+TO ADD SSL CERTIFICATE TO YOUR DOMAIN FOR ODOO SERVER
+===================================================================================================================
+
+sudo apt install certbot python3-certbot-nginx
+cd /etc/nginx/sites-enabled
+sudo nano odoo16.conf
+
+Change the server name as below
+
+server_name trend-ai.tech www.trend-ai.tech;
+sudo nginx -t
+sudo systemctl reload nginx
+
+sudo certbot --nginx -d trend-ai.tech -d www.trend-ai.tech
+
+/sudo certbot --nginx -d example.com -d www.example.com 	====>>> No need
+/find / -type f -name ".certbot.lock" -exec rm {} \;  ======>>> if error
+
+===================================================================================================================
+TO ENABLE FIREWALL ON YOUR DOMAIN FOR ODOO SERVER
+===================================================================================================================
+
+sudo ufw allow 'Nginx Full'
+sudo ufw delete allow 'Nginx HTTP'
+
 
 ========================================
 Stackflow copy-------------
