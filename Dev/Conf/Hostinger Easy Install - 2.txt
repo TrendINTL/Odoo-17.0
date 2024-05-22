@@ -1,0 +1,344 @@
+Ubuntu 20.04
+root pass:
+Root@HVPS2024
+==============================================================================
+NOTE: This "/" in the begining of the line means NO NEED
+==============================================================================
+
+STARTING FROM HERE ..........................
+CHECK & UPDATE PYTHON, APT VERSIONS & INSTALL
+.............................................
+
+python3 --version
+pip3 --version
+sudo apt-get install -y python3-pip | or sudo apt install python3-pip
+/sudo reboot
+sudo apt-get update
+sudo apt-get upgrade
+/sudo reboot
+
+--------------------------------------
+INSTALL POSTGRES NAD ITS REQUIREMENTS
+--------------------------------------
+sudo apt install python3-pip libldap2-dev libpq-dev libsasl2-dev
+sudo apt-get install curl ca-certificates gnupg
+curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+sudo sh -c 'echo "deb https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+sudo apt install python3-pip
+sudo apt update && sudo apt-get update && sudo apt upgrade && sudo apt-get upgrade
+sudo apt install postgresql postgresql-client | or sudo apt-get install postgresql
+
+===================================================================================
+THIS IS A VERY IMPORTANT STEP TO RUN POSTGRES PROERLY
+===================================================================================
+psql --version
+sudo adduser odoo
+odoo Pass:
+123456
+sudo usermod -aG sudo odoo
+sudo su odoo
+cd
+sudo -u postgres createuser -d -R -S $USER 	---------->>> Create postgres user: odoo
+createdb $USER 	---------->>> Create postgres Database: odoo
+psql -w odoo	------------------>> run postgres with odoo postgres  user ===>>> \q for exit postgres
+
+-----------------------------------------------------------------------------------------------------------------
+/sudo -u postgres createuser -d -R -S alusys
+/psql -w alusys		------------------>> run postgres with odoo postgres  user ===>>> \q for exit postgres
+/then --> alter user alusys with password 'alusys' NULL ------------>> no need if the same ubuntu username "odoo"
+sudo service postgresql restart
+/psql -w alusys
+/sudo -u alusys psql createdb alusys
+/createdb alusys
+/alter user alusys with password 'alusys';
+/grant all privileges on database alusys to alusys;
+sudo service postgresql restart
+/DROP DATABASE alusys;
+/sudo reboot
+psql -l 	--------->> showing the databases 	===>>> q to exit from database list
+
+
+or
+-----------------------------------------------------------------
+/Change the user to postgres :
+su - postgres
+Create User for Postgres (in the shell and NOT with psql)
+$ createuser alusys
+
+Create Database alusys
+$ createdb alusys
+
+Acces the postgres Shell
+psql postgres ( enter the password for postgressql)
+Provide the privileges to the postgres user
+
+$ alter user alusys with encrypted password 'alusys';
+$ grant all privileges on database alusys to alusys;
+$ DROP DATABASE test1;
+-------------------------------------------------------------------
+
+
+--------------------------------------
+INSTALL NODE JS NAD ITS REQUIREMENTS
+--------------------------------------
+sudo su
+13- sudo apt install npm -y  ---------------->> install node java script
+14- sudo npm cache clean -f       ------------>> to clean cache
+15- sudo npm install -g n       ----------->>
+16- sudo n stable           --------->> install stable node js
+17- sudo npm install -g npm    ------------->>
+18- sudo npm install rtlcss -g    --------------->> install right to left node js library
+
+
+-----------------------------------------------------
+CLONE ODOO COMMUNITY FROM GITHUB NAD ITS REQUIREMENTS
+-----------------------------------------------------
+sudo apt-get install git-all
+/sudo reboot
+sudo su odoo
+cd
+sudo mkdir /opt/odoo16
+cd /opt/odoo16
+sudo git clone https://github.com/odoo/odoo.git -b 16.0 --depth=1
+
+=========================================================================================================================================
+THIS IS A VERY IMPORTANT STEP TO FIX PATH ERROR: WARNING: The script pybabel is installed in '/home/odoo/.local/bin' which is not on PATH
+=========================================================================================================================================
+cd
+
+pip uninstall -r requirements.txt
+
+The error message is telling you to add Python 3 to your path.
+
+To do that, use a text editor to open /user/.profile ===>>> user means here: odoo, and as the very last line add:
+
+export PATH=/odoo/Library/Python/3.8/bin:$PATH
+
+Then you'll need to launch a new Terminal window for those settings to take effect.
+(you could make it take effect in your current shell by entering the line directly into your shell)
+--------------------------------------------------------------------------------------------------------------------
+cd
+-->> sudo apt-get install git python3-dev python3-pip python3-pypdf2 build-essential libxslt1-dev libxml2-dev libzip-dev libldap2-dev libldap2-dev libtiff5-dev libssl-dev libsasl2-dev liblcms2-dev libjpeg8-dev libopenjp2-7-dev zlib1g-dev libfreetype6-dev libwebp-dev libharfbuzz-dev libfribidi-dev libxcb1-dev libpq-dev
+-->> sudo apt-get install git libfontconfig1 libxrender1 fontconfig xfonts-base xfonts-75dpi libjpeg-turbo8  -------->> Install fonts libraries
+
+10- https://wkhtmltopdf.org/downloads.html,
+wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.focal_amd64.deb
+sudo dpkg -i wkhtmltox_0.12.6-1.focal_amd64.deb
+
+cd /opt/odoo16/odoo
+pip install -r requirements.txt
+TO CHECK REQUIREMENTS:
+pybabel --version
+
+
+---------------------------NO NEED FOR ODOO SERVER-------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------
+=====================================================================================================================
+TO RUN ODOO 16
+
+	- ./odoo-bin --addons-path=addons -d -i			=======>>> It will inforce odoo to run for testing 
+or run immidiatly
+And you have to wait some time to run odoo
+======================================================================================================================
+
+---I THINK NO NEED IT WILL CREATED AUTO
+Create Server Log File------------------
+----------------------------------------
+sudo su
+mkdir /var/log/odoo
+cd /var/log/odoo
+ls -a -lh
+sudo chown root:odoo /var/log/odoo
+sudo chown odoo:root /var/log/odoo
+ls -a -lh
+sudo nano /var/log/odoo/odoo16.log
+sudo nano /var/log/odoo/odoo16.log	====>> check if it created
+sudo chown odoo:root /var/log/odoo/odoo16.log
+ls -a -lh
+
+Create Conf File------------------
+----------------------------------------
+
+sudo nano /opt/odoo16/odoo/odoo16.conf
+sudo cp /opt/odoo16/odoo/odoo16.conf /opt/odoo16/odoo/alu.conf
+Hostinger Odoo Conf File ---------
+#####################################################################################
+[options]
+db_host = False
+db_port = False
+;db_user = odoo
+db_user = False
+db_password = False
+addons_path = /opt/odoo16/odoo/addons
+default_productivity_apps = True
+xmlrpc_port = 8069
+admin_passwd = 123456
+#########################################################################################
+cd /opt/odoo16/odoo
+ls -a -lh
+sudo chown odoo:root /opt/odoo16/odoo/odoo16.conf
+ls -a -lh
+----------------
+sudo cp /opt/odoo16/odoo/odoo16.conf /opt/odoo16/odoo/alusys.conf
+cd /opt/odoo16/odoo
+sudo nano /opt/odoo16/odoo/alu.conf
+Hostinger Odoo Conf File ---------
+
+#####################################################################################
+[options]
+; This is the password that allows database operations:
+admin_passwd = 123456
+http_port = 8079
+#db_host = False
+#db_port = 5432
+#db_user = alu
+#db_password = alu
+logfile = /var/log/odoo/alu.log
+addons_path = /opt/odoo16/odoo/addons
+#default_productivity_apps = True
+#xmlrpc_port = 8079
+proxy_mode = True
+workers = 4
+#########################################################################################
+
+cd /opt/odoo16/odoo
+ls -a -lh
+sudo chown odoo:odoo /opt/odoo16/odoo/alu.conf
+ls -a -lh
+
+
+
+------------------------------------------------------------------------------------------
+
+Yanthee Conf File--------------
+*******Update the conf file same as shown in the code below.*******
+[options]
+; This is the password that allows database operations:
+admin_passwd = 123456
+db_host = False
+db_port = False
+db_user = odoo
+db_password = 123456
+addons_path = /opt/odoo16/odoo/addons
+logfile = /var/log/odoo/odoo16.log
+-----------------------------------------------
+
+
+---------------------------------------------------------------------------------------------------------------
+Step-12:Odoo service file
+We have to create a service to run Odoo. Let’s create a service file ‘odoo.service’ in /etc/systemd/system.
+--------------------------------------------------------
+sudo nano /etc/systemd/system/odoo16.service
+--------------------------------------------------------
+**************Add the following aspects to the newly created service file.**********************
+[Unit]
+Description=Odoo16
+Documentation=http://www.odoo.com
+[Service]
+# Ubuntu/Debian convention:
+Type=simple
+User=odoo
+ExecStart=/opt/odoo16/odoo/odoo-bin -c /opt/odoo16/odoo/odoo16.conf
+[Install]
+WantedBy=default.target
+---------------------------------------------------------------------------------------------------------------
+sudo nano /etc/systemd/system/odoo16.service	===>>> for test that file created
+
+Finally, set the root user's permissions for this service file.
+sudo chmod 755 /etc/systemd/system/odoo16.service
+sudo chown odoo:root /etc/systemd/system/odoo16.service
+cd /etc/systemd/system
+ls -a -lh
+
+sudo systemctl daemon-reload
+/sudo systemctl enable odoo16.service
+/sudo systemctl start odoo16.service
+/sudo systemctl status odoo16.service	===>>> q to exit
+
+sudo service odoo16 status
+sudo service odoo16 stop
+sudo service odoo16 status
+sudo service odoo16 start
+sudo service odoo16 status
+sudo service odoo16 restart
+sudo service odoo16 status	===>>> q to exit
+
+------------------------------------------------------------------------------
+sudo cp /etc/systemd/system/odoo16.service /etc/systemd/system/alu.service
+sudo nano /etc/systemd/system/alu.service	===>>> for cahnge file data
+------------------------------------------------------------------------------
+**************Add the following aspects to the newly created service file.**********************
+[Unit]
+Description=alusys
+Documentation=http://www.odoo.com
+[Service]
+# Ubuntu/Debian convention:
+Type=simple
+User=odoo
+ExecStart=/opt/odoo16/odoo/odoo-bin -c /opt/odoo16/odoo/alusys.conf
+[Install]
+WantedBy=default.target
+---------------------------------------------------------------------------------------------------------------
+
+cd /etc/systemd/system
+Finally, set the root user's permissions for this service file.
+ls -a -lh
+sudo chmod 755 /opt/odoo16/odoo/alusys.conf
+sudo chmod 755 /etc/systemd/system/alusys.service
+sudo chown odoo:root /etc/systemd/system/alusys.service
+cd /etc/systemd/system
+ls -a -lh
+
+cd /opt/odoo16/odoo
+ls -a -lh
+sudo chown odoo:root /opt/odoo16/odoo/alusys.conf
+sudo nano /opt/odoo16/odoo/alu.conf
+sudo nano /etc/systemd/system/alu.service
+ls -a -lh
+
+sudo service postgresql restart
+sudo service alu stop
+sudo systemctl daemon-reload
+/sudo systemctl enable alusys.service
+/sudo systemctl start alusys.service
+/sudo systemctl status alusys.service	===>>> q to exit
+
+sudo service alusys status
+sudo service alusys stop
+sudo service alusys status
+sudo service alusys start
+sudo service alusys status
+sudo service alusys restart
+sudo service alusys status	===>>> q to exit
+user1
+user@example.com
+
+sudo tail -f /var/log/odoo/alu.log
+
+sudo nano /etc/postgresql/16/main/pg_ident.conf
+# MAPNAME       SYSTEM-USERNAME         PG-USERNAME
+user1           <computer-username>     postgres
+
+sudo su postgres
+createuser --createdb --username postgres --no-createrole --no-superuser --pwprompt aludb
+
+
+sudo nano /etc/postgresql/16/main/pg_hba.conf
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+local   all             postgres                                peer
+
+
+
+- ./odoo-bin --save --stop-after-init
+	- python3 odoo-bin server --save -c alusys.conf
+	- python3 odoo-bin --addons-path=addons -d alusys
+	- cd
+	- sudo cp .odoorc /opt/odoo16/odoo/alusys.conf
+	- ./odoo-bin --addons-path=addons -d -i
+
+
+
+
+
+	- python3 ./odoo-bin --addons-path=addons -d -i
+=========================================================تم بحمد الله================================================================

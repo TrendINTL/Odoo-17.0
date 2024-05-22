@@ -142,8 +142,8 @@ cd /etc/nginx/sites-enabled
 sudo nano odoo16.conf
 
 Change the server name as below
-
 server_name trend-ai.tech www.trend-ai.tech;
+
 sudo nginx -t
 sudo systemctl reload nginx
 
