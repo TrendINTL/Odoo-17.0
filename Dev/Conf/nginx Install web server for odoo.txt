@@ -132,6 +132,9 @@ TO ADD DOMAIN NAME INSTEAD OD IP ADDRESS TO ODOO SERVER
 	Type	Name	Priority	Content/IP			TTL
 	A	@	0		195.35.28.250		no change
 
+To ADD SUBDOMAINS:
+	Type	Name	Priority	Content/IP			TTL
+	A	alusys	0		195.35.28.250		no change
 
 ===================================================================================================================
 TO ADD SSL CERTIFICATE TO YOUR DOMAIN FOR ODOO SERVER

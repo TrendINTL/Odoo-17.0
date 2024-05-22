@@ -38,8 +38,8 @@ sudo usermod -aG sudo odoo
 sudo su odoo
 cd
 sudo -u postgres createuser -d -R -S $USER 	---------->>> Create postgres user: odoo
-createdb $USER 	---------->>> Create postgres Database: odoo
-psql -w odoo	------------------>> run postgres with odoo postgres  user ===>>> \q for exit postgres
+/createdb $USER 	---------->>> Create postgres Database: odoo
+psql -w postgres	------------------>> run postgres with postgres database ===>>> \q for exit postgres
 /then --> alter user postgres with password '123456' NULL ------------>> no need if the same ubuntu username "odoo"
 sudo service postgresql restart
 /sudo reboot
@@ -147,15 +147,102 @@ ls -a -lh
 Yanthee Conf File--------------
 *******Update the conf file same as shown in the code below.*******
 [options]
-   ; This is the password that allows database operations:
-   admin_passwd = 123456
-   db_host = False
-   db_port = False
-   db_user = odoo
-   db_password = 123456
-   addons_path = /opt/odoo16/odoo/addons
-   logfile = /var/log/odoo/odoo16.log
+; This is the password that allows database operations:
+admin_passwd = 123456
+db_host = False
+db_port = False
+db_user = odoo
+db_password = 123456
+addons_path = /opt/odoo16/odoo/addons
+logfile = /var/log/odoo/odoo16.log
 -----------------------------------------------
+
+---------------------------------------------------------------------------------------------------------------
+Step-12:Odoo service file
+We have to create a service to run Odoo. Let’s create a service file ‘odoo.service’ in /etc/systemd/system.
+--------------------------------------------------------
+sudo nano /etc/systemd/system/odoo16.service
+--------------------------------------------------------
+**************Add the following aspects to the newly created service file.**********************
+[Unit]
+Description=Odoo16
+Documentation=http://www.odoo.com
+[Service]
+# Ubuntu/Debian convention:
+Type=simple
+User=odoo
+ExecStart=/opt/odoo16/odoo/odoo-bin -c /opt/odoo16/odoo/odoo16.conf
+[Install]
+WantedBy=default.target
+---------------------------------------------------------------------------------------------------------------
+
+https://www.digitalocean.com/community/tutorials/how-to-add-and-delete-users-on-ubuntu-20-04
+
+sudo nano /etc/systemd/system/odoo16.service	===>>> for test that file created
+
+Finally, set the root user's permissions for this service file.
+sudo chmod 755 /etc/systemd/system/odoo16.service
+sudo chown odoo:root /etc/systemd/system/odoo16.service
+cd /etc/systemd/system
+ls -a -lh
+
+sudo systemctl enable odoo16.service
+sudo systemctl daemon-reload
+sudo systemctl start odoo16.service
+sudo systemctl status odoo16.service	===>>> q to exit
+
+sudo service odoo16 status
+sudo service odoo16 stop
+sudo service odoo16 status
+sudo service odoo16 start
+sudo service odoo16 status
+sudo service odoo16 restart
+sudo service odoo16 status	===>>> q to exit
+
+sudo service alusys stop
+sudo service alusys status
+sudo service alusys start
+sudo service alusys status
+sudo service alusys restart
+sudo service alusys status
+
+
+====Some Commands may need It=======================================================
+cd /etc
+ls -a -lh
+sudo chown odoo:root /etc/odoo16.conf
+sudo chown odoo:root /etc/alusys.conf
+ls -a -lh
+----------------
+sudo cp  /etc/odoo16.conf /etc/alusys.conf
+cd /etc
+sudo nano /etc/alusys.conf
+-----------------
+sudo -u postgres psql -c "\du;"
+sudo -u postgres psql -c "\dg;"
+sudo -u postgres createuser -s -i -d -r -l -w psqlsuser
+sudo -u postgres psql -c "ALTER ROLE odoo WITH PASSWORD 'odoo';"
+sudo service postgresql restart
+sudo -u postgres psql -c "ALTER ROLE postgres WITH PASSWORD '123456';"
+/sudo -u postgres psql -c "drop user alusys;"
+/sudo -u postgres psql -c "drop user alu;"
+/sudo -u postgres psql -c "drop user aludb;"
+/	=======		sudo -u postgres psql -c "drop user odoo;"	=======
+psql -l
+sudo -u postgres psql -c "drop database odoo;"
+createuser --createdb --username postgres --no-createrole --no-superuser --pwprompt aludb	====>>> Create postgres user especially for multi-Odoo-Instance the same Odoo Installation
+
+
+-----------------------
+or
+psql -w postgres	------------------>> run postgres with postgres database ===>>> \q for exit postgres
+/then --> alter user postgres with password 'postgres'; NULL ------------>> no need if the same ubuntu username "odoo"
+sudo service postgresql restart
+drop user alusys;
+\q
+sudo service postgresql restart
+
+====================================================================================
 
 ---------------------------------------------------------------------------------------------------------------
 Step-12:Odoo service file
@@ -183,16 +270,94 @@ sudo chown odoo:root /etc/systemd/system/odoo16.service
 cd /etc/systemd/system
 ls -a -lh
 
-sudo systemctl enable odoo16.service
 sudo systemctl daemon-reload
-sudo systemctl start odoo16.service
-sudo systemctl status odoo16.service	===>>> q to exit
+/sudo systemctl enable odoo16.service
+/sudo systemctl start odoo16.service
+/sudo systemctl status odoo16.service	===>>> q to exit
 
-sudo service odoo16 status
+sudo service odoo16 status	===>>> q to exit
 sudo service odoo16 stop
 sudo service odoo16 status
 sudo service odoo16 start
 sudo service odoo16 status
 sudo service odoo16 restart
-sudo service odoo16 status	===>>> q to exit
+sudo service odoo16 status
+------------------------------------------------------------------------------
+sudo cp /etc/systemd/system/odoo16.service /etc/systemd/system/alu.service
+sudo nano /etc/systemd/system/alu.service	===>>> for cahnge file data
+------------------------------------------------------------------------------
+**************Add the following aspects to the newly created service file.**********************
+[Unit]
+Description=alusys
+Documentation=http://www.odoo.com
+[Service]
+# Ubuntu/Debian convention:
+Type=simple
+User=odoo
+ExecStart=/opt/odoo16/odoo/odoo-bin -c /opt/odoo16/odoo/alusys.conf
+[Install]
+WantedBy=default.target
+---------------------------------------------------------------------------------------------------------------
+
+cd /etc/systemd/system
+Finally, set the root user's permissions for this service file.
+ls -a -lh
+sudo chmod 755 /opt/odoo16/odoo/alusys.conf
+sudo chmod 755 /etc/systemd/system/alusys.service
+sudo chown odoo:root /etc/systemd/system/alusys.service
+cd /etc/systemd/system
+ls -a -lh
+
+cd /opt/odoo16/odoo
+ls -a -lh
+sudo chown odoo:root /opt/odoo16/odoo/alusys.conf
+sudo nano /opt/odoo16/odoo/alu.conf
+sudo nano /etc/systemd/system/alu.service
+ls -a -lh
+
+sudo service postgresql restart
+sudo service alu stop
+sudo systemctl daemon-reload
+/sudo systemctl enable alusys.service
+/sudo systemctl start alusys.service
+/sudo systemctl status alusys.service	===>>> q to exit
+
+sudo service alusys status
+sudo service alusys stop
+sudo service alusys status
+sudo service alusys start
+sudo service alusys status
+sudo service alusys restart
+sudo service alusys status	===>>> q to exit
+user1
+user@example.com
+
+sudo tail -f /var/log/odoo/alu.log
+
+sudo nano /etc/postgresql/16/main/pg_ident.conf
+# MAPNAME       SYSTEM-USERNAME         PG-USERNAME
+user1           <computer-username>     postgres
+
+sudo su postgres
+createuser --createdb --username postgres --no-createrole --no-superuser --pwprompt aludb
+
+
+sudo nano /etc/postgresql/16/main/pg_hba.conf
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+local   all             postgres                                peer
+
+
+
+- ./odoo-bin --save --stop-after-init
+	- python3 odoo-bin server --save -c alusys.conf
+	- python3 odoo-bin --addons-path=addons -d alusys
+	- cd
+	- sudo cp .odoorc /opt/odoo16/odoo/alusys.conf
+	- ./odoo-bin --addons-path=addons -d -i
+
+
+
+
+
+	- python3 ./odoo-bin --addons-path=addons -d -i
 =========================================================تم بحمد الله================================================================

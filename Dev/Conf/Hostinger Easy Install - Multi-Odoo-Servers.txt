@@ -1,0 +1,127 @@
+https://www.digitalocean.com/community/tutorials/how-to-add-and-delete-users-on-ubuntu-20-04
+/---	deluser newuser	---	sudo deluser newuser	----	deluser --remove-home newuser	----	sudo deluser --remove-home newuser
+/---	some_command	---	sudo some_command	---	
+/---	compgen -u ---	compgen -g
+/---	
+
+Ubuntu 20.04
+------------------------
+sudo deluser --remove-home alusys
+sudo delgroup --remove-home alusys
+sudo adduser alusys
+odoo Pass: alusys
+Full Name: Aluminum System Construction Compant LTD
+
+sudo usermod -aG sudo alusys
+sudo su alusys
+-------------------------
+cd
+
+CHECK THE POSTGRES VERSION:
+psql --version
+
+CREATE POSTGRES USER:
+sudo -u postgres createuser -d -R -S $USER 	---------->>> Create postgres user: alusys
+///--> NO NEED: createdb $USER 	---------->>> Create postgres Database: alusys
+psql -w postgres	------------------>> run postgres with postgres database ===>>> \q for exit postgres
+/then --> sudo -u postgres psql -c "ALTER ROLE alusys WITH PASSWORD NULL;" or 'user-password';"   --->> NULL <<------------>> NO NEED: if the same ubuntu username "odoo"
+sudo service postgresql restart
+/sudo reboot
+psql -l 	--------->> showing the databases 	===>>> q to exit from database list
+-----------------------------------------------------------------------------------------------------------------------
+
+CLONE ODOO FROM GITHUB:
+sudo mkdir /opt/alusys
+cd /opt/alusys
+sudo git clone https://github.com/odoo/odoo.git -b 16.0 --depth=1
+
+cd
+-------------------------------------
+IF NOT INSTALLED OR ANOTHER VERSIONS
+-------------------------------------
+
+-->> sudo apt-get install git python3-dev python3-pip python3-pypdf2 build-essential libxslt1-dev libxml2-dev libzip-dev libldap2-dev libldap2-dev libtiff5-dev libssl-dev libsasl2-dev liblcms2-dev libjpeg8-dev libopenjp2-7-dev zlib1g-dev libfreetype6-dev libwebp-dev libharfbuzz-dev libfribidi-dev libxcb1-dev libpq-dev
+-->> sudo apt-get install git libfontconfig1 libxrender1 fontconfig xfonts-base xfonts-75dpi libjpeg-turbo8  -------->> Install fonts libraries
+
+cd /opt/alusys/odoo
+pip install -r requirements.txt
+
+TO CHECK REQUIREMENTS INSTALLATION:
+pybabel --version
+
+----------------------------------------------------NO NEED----------------------------------------------------------
+=====================================================================================================================
+TO RUN ODOO 16 FOR TEST IF NOT WORKING PROPERLY
+------------------------------------------------
+
+	- ./odoo-bin --addons-path=addons -d -i			=======>>> It will inforce odoo to run for testing 
+or run immidiatly
+And you have to wait some time to run odoo
+======================================================================================================================
+----------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------
+IF NOT EXISTS: Create Server Log File Directory ------------------
+------------------------------------------------------------------
+cd /var/log
+ls -la
+sudo mkdir /var/log/alusys
+cd /var/log
+ls -a -lh
+sudo chown alusys:root /var/log/alusys
+ls -a -lh
+-------------------------------------------------------------------------------------------
+Create Server Conf File ------------------------------------------
+------------------------------------------------------------------
+
+cd /opt/alusys/odoo
+sudo nano /opt/alusys/odoo/alusys.conf
+
+Hostinger Odoo Conf File ------------------------------------------------------------
+#####################################################################################
+[options]
+db_host = False
+db_port = False
+;db_user = alusys
+db_user = False
+db_password = False
+addons_path = /opt/alusys/odoo/addons
+log_file = /var/log/alusys/alusys.log
+default_productivity_apps = True
+xmlrpc_port = 8077
+admin_passwd = admin
+#########################################################################################
+cd /opt/alusys/odoo
+ls -a -lh
+sudo chown alusys:root /opt/alusys/odoo/alusys.conf
+ls -a -lh
+
+------------------------------------------------------------------------------------------
+cd /etc/systemd/system
+sudo nano /etc/systemd/system/alusys.service
+
+**************Add the following aspects to the newly created service file.**********************
+[Unit]
+Description=alusys
+Documentation=http://www.odoo.com
+[Service]
+# Ubuntu/Debian convention:
+Type=simple
+User=alusys
+ExecStart=/opt/alusys/odoo/odoo-bin -c /opt/alusys/odoo/alusys.conf
+[Install]
+WantedBy=default.target
+---------------------------------------------------------------------------------------------------------------
+****Note: User her is the system USER****
+ls -la
+sudo chown alusys:root /etc/systemd/system/alusys.service
+ls -la
+sudo systemctl daemon-reload
+sudo systemctl enable alusys.service
+sudo systemctl start alusys.service
+---------------------
+AFTER ENABLE SERVICE BY THE PREVIOUS COMMAND YOU CAN USE THE FOLLOWING COMMAN
+---------------------
+sudo service alusys status	===>>> q to exit
+sudo tail -f /var/log/alusys/alusys.log
+=========================================================تم بحمد الله================================================================
