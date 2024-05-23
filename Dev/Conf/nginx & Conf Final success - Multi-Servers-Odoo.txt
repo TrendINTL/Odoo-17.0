@@ -1,0 +1,275 @@
+1- Prepaar Domains & website names: name server:
+===================================================================
+TO ADD DOMAIN & SUBDOMAIN NAME INSTEAD OD IP ADDRESS TO ODOO SERVER:
+===================================================================
+
+1- Login to your host
+2- Go to domains
+3- Go to DNS/Nameservers
+4- in the top of screen search for DNS A record
+5- Change as below
+	Type	Name	Priority	Content/IP			TTL
+	A	@	0		195.35.28.250		no change
+
+To ADD SUBDOMAINS:
+	Type	Name	Priority	Content/IP			TTL
+	A	alus	0		195.35.28.250			100	No Need
+	CNAME	www.alus0		trend-ai.tech			100	No Need
+---------------------------------------------------------------------------------------------------------------------
+
+2- Change config file
+----------------------
+ADD THE FOLLOWING LINE:
+----------------------
+ps aux || grep odoo16
+cd /opt/odoo16/odoo
+sudo nano odoo16.conf
+worker = 4	=====>>>>  Rule of thumb : (#CPU * 2) + 1 & Cron workers need CPU & 1 worker ~= 6 concurrent users
+proxy_mode = True
+gevent_port = 8073
+
+
+--------------alusys.conf----------------
+[options]
+db_host = False
+db_port = False
+db_user = False
+db_password = False
+addons_path = /opt/alusys/odoo/addons
+log_file = /var/log/alusys/alusys.log
+default_productivity_apps = True
+xmlrpc_port = 8077
+admin_passwd = $pbkdf2-sha512$600000$AwBASKlV6l2L0dp77x0DYA$vhc88ikLdC.xfCDlxq75DFiVV1lU6wjU4qXVGiV170wU36spFkbQVGc7BhrKClDLhxg8AaLk71pnaAjT0Gmi>
+workers = 4
+proxy_mode = True
+gevent_port = 8073
+
+--------------alusys copy for odoo16.conf----------------
+[options]
+db_host = False
+db_port = False
+db_user = False
+db_password = False
+addons_path = /opt/odoo16/odoo/addons,/opt/odoo16/addons
+log_file = /var/log/odoo/odoo16.log
+default_productivity_apps = True
+xmlrpc_port = 8069
+admin_passwd = 123456
+workers = 4
+proxy_mode = True
+gevent_port = 8072
+
+sudo service odoo16 restart
+
+----------------------------------------------------------------------------------------------------------------------
+
+3- Install nginx & prepare nginx config file:
+============================================
+/sudo apt install nginx -y
+/sudo apt install certbot python3-certbot-nginx
+sudo nano /opt/odoo16/odoo/odoo16.conf
+sudo nano /opt/alusys/odoo/alus.conf
+
+cd /etc/nginx/sites-available
+ls -a -lh
+sudo nano /etc/nginx/sites-available/alus.conf	====>>> RECOMMENDED ANYWAY To Create nginx File if NOT EXISTS
+ls -a -lh
+or: Copy if exists
+/sudo cp /etc/nginx/sites-available/odoo16.conf /etc/nginx/sites-available/alus.conf --->> NOT RECOMMENDED
+/sudo chmod 755 alusys.conf
+/sudo chown alusys:root odoo16.conf
+
+========================================================
+Copy this and paste into file /etc/nginx/sites-available
+========================================================
+
+alus.trend-ai.tech nginx file alus.conf
+##################################################################
+#odoo server
+upstream alus {
+server 127.0.0.1:8077;
+}
+upstream aluschat {
+server 127.0.0.1:8073;
+}
+
+
+server {
+listen 80;
+server_name server_name alus.trend-ai.tech www.alus.trend-ai.tech;
+
+proxy_read_timeout 720s;
+proxy_connect_timeout 720s;
+proxy_send_timeout 720s;
+
+
+# Add Headers for odoo proxy mode
+proxy_set_header X-Forwarded-Host $host;
+proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+proxy_set_header X-Forwarded-Proto $scheme;
+proxy_set_header X-Real-IP $remote_addr;
+
+# log
+access_log /var/log/nginx/alus.access.log;
+error_log /var/log/nginx/alus.error.log;
+
+# Redirect requests to odoo backend server
+location / {
+proxy_redirect off;
+proxy_pass http://alus;
+}
+location /longpolling {
+proxy_pass http://aluschat;
+}
+
+# common gzip
+gzip_types text/css text/less text/plain text/xml application/xml application/json application/javascript;
+gzip on;
+
+
+client_body_in_file_only clean;
+client_body_buffer_size 32K;
+client_max_body_size 500M;
+sendfile on;
+send_timeout 600s;
+keepalive_timeout 300;
+}
+##################################################### 
+Prepare alus.trend-ai.tech nginx file alus.conf for odoo16.conf
+##################################################################
+#odoo server
+upstream odoo16 {
+server 127.0.0.1:8069;
+}
+upstream odoo16chat {
+server 127.0.0.1:8072;
+}
+
+
+server {
+server_name odoo16.trend-ai.tech www.odoo16.trend-ai.tech;
+proxy_read_timeout 720s;
+proxy_connect_timeout 720s;
+proxy_send_timeout 720s;
+
+
+# Add Headers for odoo proxy mode
+proxy_set_header X-Forwarded-Host $host;
+proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+proxy_set_header X-Forwarded-Proto $scheme;
+proxy_set_header X-Real-IP $remote_addr;
+
+# log
+access_log /var/log/nginx/odoo16.access.log;
+error_log /var/log/nginx/odoo16.error.log;
+
+# Redirect requests to odoo backend server
+location / {
+proxy_redirect off;
+proxy_pass http://odoo16;
+}
+location /longpolling {
+proxy_pass http://odoo16chat;
+}
+
+# common gzip
+gzip_types text/css text/less text/plain text/xml application/xml application/json application/javascript;
+gzip on;
+
+
+client_body_in_file_only clean;
+client_body_buffer_size 32K;
+client_max_body_size 500M;
+sendfile on;
+send_timeout 600s;
+keepalive_timeout 300;
+}
+#####################################################
+
+--------------------4- FINALLY RUN NGINX WEB SERVER-------------------------------------------------------
+
+===================================================================================================================
+TO RUN MULTI-PROCCESSING WORKERS IN ODOO SERVER
+===================================================================================================================
+
+then ===>>> RUN
+
+sudo ln -s /etc/nginx/sites-available/odoo16.conf /etc/nginx/sites-enabled/odoo16.conf
+ls -a -lh	===>>> to insure odoo16.conf file created
+cd /etc/nginx/sites-enabled
+ls -a -lh	==========>>> you will find a copy of odoo16.conf file
+
+sudo nginx -t
+sudo systemctl reload nginx
+sudo nano /opt/alusys/odoo/alusys.conf
+
+sudo service apache2 status
+sudo service apache2 stop
+sudo service apache2 status
+
+sudo service nginx status
+sudo service nginx stop
+sudo service nginx status
+sudo service nginx start
+sudo service nginx status
+sudo service nginx restart
+sudo service nginx status
+
+sudo service odoo16 status
+sudo service odoo16 stop
+sudo service odoo16 status
+sudo service odoo16 start
+sudo service odoo16 status
+
+---------------------------------5- TEST NGINX LOG FILE--------------------------------------------------
+sudo tail -f /var/log/nginx/odoo.access.log
+sudo tail -f /var/log/nginx/odoo.error.log
+
+
+
+sudo nano odoo16.conf
+cd /etc/nginx/sites-available
+sudo chmod 755 odoo16.conf
+sudo chown odoo:odoo odoo16.conf
+sudo rm -rf odoo16.conf
+
+===================================================================================================================
+6- TO ADD SSL CERTIFICATE TO YOUR DOMAIN FOR ODOO SERVER
+===================================================================================================================
+
+sudo certbot delete
+
+cd /etc/nginx/sites-enabled
+sudo nano /etc/nginx/sites-enabled/odoo16.conf
+
+Change the server name as below
+server_name odoo16.trend-ai.tech www.odoo16.trend-ai.tech;
+
+sudo nginx -t
+sudo systemctl reload nginx
+sudo certbot		===>>>> Automatically Chechs the enabled websites and give you options which one you want to install certificate/s
+
+Make shore to change the port: "server 127.0.0.1:8077;" & the server_name: "server_name server_name alus.trend-ai.tech www.alus.trend-ai.tech;"
+sudo nano /etc/nginx/sites-available/alusys.conf
+
+then ===>>> TO RUN
+
+sudo ln -s /etc/nginx/sites-available/alus.conf /etc/nginx/sites-enabled/alus.conf
+ls -a -lh	===>>> to insure alusys.conf file created
+cd /etc/nginx/sites-enabled
+ls -a -lh	==========>>> you will find a copy of alusys.conf file
+
+
+===================================================================================================================
+7- RENEW SSL CERTIFICATE TO YOUR DOMAIN FOR ODOO SERVER
+===================================================================================================================
+
+
+
+===================================================================================================================
+8- TO ENABLE FIREWALL ON YOUR DOMAIN FOR ODOO SERVER
+===================================================================================================================
+
+sudo ufw allow 'Nginx Full'
+sudo ufw delete allow 'Nginx HTTP'
+
