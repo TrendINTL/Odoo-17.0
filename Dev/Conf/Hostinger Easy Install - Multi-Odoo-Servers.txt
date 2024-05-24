@@ -9,15 +9,25 @@ Ubuntu 20.04
 sudo deluser --remove-home alusys
 sudo delgroup --remove-home alusys
 sudo adduser alusys
+sudo adduser spl
 odoo Pass: alusys
+spl Pass: SPL@Trend-AI2024
 Full Name: Aluminum System Construction Compant LTD
-
+Full Name: Splendor Trading Co
 sudo usermod -aG sudo alusys
+sudo usermod -aG sudo spl
 sudo su alusys
+sudo su spl
 -------------------------
 cd
 
+https://www.odoo.com/documentation/17.0/administration/on_premise/source.html
+
+https://www.odoo.com/forum/help-1/how-to-upgrade-from-odoo-16-to-odoo-17-247150
+
 CHECK THE POSTGRES VERSION:
+python3 --version
+https://stackoverflow.com/questions/76057177/creating-a-venv-with-python-3-10-manually-installed-on-ubuntu-fails  ====>>> To Upgrade Python version & environment
 psql --version
 
 CREATE POSTGRES USER:
