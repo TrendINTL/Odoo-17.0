@@ -9,6 +9,10 @@ STARTING FROM HERE ..........................
 CHECK & UPDATE PYTHON, APT VERSIONS & INSTALL
 .............................................
 
+sudo dpkg --configure -a
+sudo apt install -f
+sudo dpkg --configure -a
+
 python3 --version
 pip3 --version
 sudo apt-get install -y python3-pip | or sudo apt install python3-pip

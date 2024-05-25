@@ -27,7 +27,29 @@ https://www.odoo.com/forum/help-1/how-to-upgrade-from-odoo-16-to-odoo-17-247150
 
 CHECK THE POSTGRES VERSION:
 python3 --version
-https://stackoverflow.com/questions/76057177/creating-a-venv-with-python-3-10-manually-installed-on-ubuntu-fails  ====>>> To Upgrade Python version & environment
+
+sudo apt install python3.10
+alias python='/usr/bin/python3.10'
+/sudo update-alternatives --set python /usr/bin/python3.10
+curl -sS https://bootstrap.pypa.io/get-pip.py | python3.10
+sudo su
+sudo nano ~/.bash_profile; open ~/.bash_profile
+echo 'pathmunge /usr/lib/ruby-enterprise/bin' > /etc/profile.d/ree.sh
+chmod +x /etc/profile.d/ree.sh
+sudo su spl
+echo $PATH
+export PATH="/usr/local/bin:$PATH"
+source ~/.bash_profile
+echo $PATH
+
+
+
+sudo systemctl daemon-reload
+sudo service apache2 stop
+sudo service apache2 status
+sudo service nginx start
+sudo service nginx status
+
 psql --version
 
 CREATE POSTGRES USER:
@@ -42,7 +64,10 @@ psql -l 	--------->> showing the databases 	===>>> q to exit from database list
 
 CLONE ODOO FROM GITHUB:
 sudo mkdir /opt/alusys
+sudo mkdir /opt/spl
 cd /opt/alusys
+cd /opt/spl
+sudo git clone https://github.com/odoo/odoo.git -b 17.0 --depth=1
 sudo git clone https://github.com/odoo/odoo.git -b 16.0 --depth=1
 
 cd
@@ -54,6 +79,7 @@ IF NOT INSTALLED OR ANOTHER VERSIONS
 -->> sudo apt-get install git libfontconfig1 libxrender1 fontconfig xfonts-base xfonts-75dpi libjpeg-turbo8  -------->> Install fonts libraries
 
 cd /opt/alusys/odoo
+cd /opt/spl/odoo
 pip install -r requirements.txt
 
 TO CHECK REQUIREMENTS INSTALLATION:
