@@ -77,7 +77,6 @@ sudo rm -rf bin include lib lib64 pyvenv.cfg share	==>>> To Delete Vertial Envir
 /cd /usr/lib/python3/dist-packages
 /sudo cp apt_pkg.cpython-38-x86_64-linux-gnu.so apt_pkg.so
 
-
 sudo apt install python3.10
 alias python='/usr/bin/python3.10'
 pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118

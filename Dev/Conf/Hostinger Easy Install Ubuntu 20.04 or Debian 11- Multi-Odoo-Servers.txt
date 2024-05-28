@@ -23,61 +23,52 @@ sudo su spl
 https://www.odoo.com/documentation/17.0/administration/on_premise/source.html |
 https://www.odoo.com/documentation/16.0/administration/on_premise/source.html |
 ------------------------------------------------------------------------------
-
-36- sudo rm /usr/lib/python3.*/EXTERNALLY-MANAGED  	<<------THE MOST IMPORTANT COMMAND------>> to remve externally manage
+=============================================================================================================================
+36- sudo rm -rf /usr/lib/python3.*/EXTERNALLY-MANAGED  	<<------THE MOST IMPORTANT COMMAND------>> to remve externally manage|
+=============================================================================================================================
 
 -------------------------------------
 IF NOT INSTALLED OR ANOTHER VERSIONS
 -------------------------------------
 
-sudo apt-get install git-all
-
 python3 --version
 
-# First, verify that 3.10.14 is available:
-apt-cache policy python3.10.14
-
-#If available:
-apt-get install python3.10=3.10.14
-
-#If not available, you'll need to find a repo which has the version you desire and add it to your apt sources list, update, and install:
-echo "https://github.com/python/cpython/tree/3.10" >> /etc/apt/sources.list.d/python.list || "<repo url>" *replaced with* "https://github.com/python/cpython/tree/3.10"
-
-apt-get update
-apt-get install python3.10=3.10.14
-
+/sudo su odoo
 sudo apt-get update
 sudo apt-get upgrade
+/sudo apt-get install python3.10=3.10.14
+
+/sudo apt remove python3.12
+/sudo apt remove python3-pip
+/wget https://bootstrap.pypa.io/get-pip.py
+/sudo python3 get-pip.py
+/sudo apt-get install python3-apt --reinstall
+/cd /usr/lib/python3/dist-packages
+/sudo cp apt_pkg.cpython-38-x86_64-linux-gnu.so apt_pkg.so
+
+/sudo apt-get install python3.10
+alias python='/usr/bin/python3.10'
+pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+
+
+
+sudo apt-get install git-all
 
 --------------------------------------
 INSTALL POSTGRES NAD ITS REQUIREMENTS
 --------------------------------------
 sudo apt install python3-pip libldap2-dev libpq-dev libsasl2-dev 	| 	or sudo apt-get install -y python3-pip libldap2-dev libpq-dev libsasl2-dev
-pip3 --version
+pip --version
 
--------------Original from Postgres------------------------------
-1- # Import the repository signing key:
-sudo apt install curl ca-certificates
-sudo install -d /usr/share/postgresql-common/pgdg
-sudo curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc
-2- # Create the repository configuration file:
-sudo sh -c 'echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
-3- # Update the package lists:
-sudo apt update		| 	or sudo apt update && sudo apt-get update && sudo apt upgrade && sudo apt-get upgrade
-4- # Install the latest version of PostgreSQL:
-5- # If you want a specific version, use 'postgresql-16' or similar instead of 'postgresql'
-sudo apt -y install postgresql-14 	|	or sudo apt -y install postgresql
------------------------------------------------------------------
+sudo apt-get install curl ca-certificates gnupg
+curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+sudo sh -c 'echo "deb https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 
-/sudo apt-get install curl ca-certificates gnupg
-/curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-/sudo sh -c 'echo "deb https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+sudo apt update && sudo apt-get update && sudo apt upgrade && sudo apt-get upgrade
+sudo apt-get install -y postgresql-12 | or sudo apt install postgresql postgresql-client
 
-/sudo apt update && sudo apt-get update && sudo apt upgrade && sudo apt-get upgrade
-/sudo apt install postgresql postgresql-client | or sudo apt-get install postgresql
-
-/CHECK THE POSTGRES VERSION:
-/psql --version
+CHECK THE POSTGRES VERSION:
+psql --version
 
 -----------------------------------------------------------------------------------------------------------------------
 
@@ -102,23 +93,32 @@ IINSTALL REQUIRED LIBRARIES FOR ODOO 16:
 -->> sudo apt-get install git libfontconfig1 libxrender1 fontconfig xfonts-base xfonts-75dpi libjpeg-turbo8  -------->> Install fonts libraries
 pybabel --version
 
-sudo apt install wkhtmltopdf
-wkhtmltopdf --version
-
 or:
-
+uname -a
+uname -i
+uname -m
+lsb_release -a
+sudo apt remove wkhtmltox
+sudo apt remove wkhtmltopdf
 /10- https://wkhtmltopdf.org/downloads.html,
 /cd
-/wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-2/wkhtmltox_0.12.6.1-2.jammy_amd64.deb	==>>> Ubuntu 22.04
-/wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.focal_amd64.deb	==>>> Ubuntu 20.04
-/sudo dpkg -i wkhtmltox_0.12.6.1-2.jammy_amd64.deb	==>>> Ubuntu 22.04
-/sudo dpkg -i wkhtmltox_0.12.6-1.focal_amd64.deb	==>>> Ubuntu 20.04
+/wget http://security.ubuntu.com/ubuntu/pool/universe/w/wkhtmltopdf/wkhtmltopdf_0.12.6-2build2_amd64.deb		==>>> Ubuntu 24.04
+/sudo apt install wkhtmltopdf 			==>>> Ubuntu 24.04 Only
+/wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-3/wkhtmltox_0.12.6.1-3.jammy_amd64.deb	==>>> Ubuntu 22.04
+wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.focal_amd64.deb	==>>> Ubuntu 20.04
+/sudo dpkg -i wkhtmltopdf_0.12.6-2build2_amd64.deb
+/sudo dpkg -i wkhtmltox_0.12.6.1-3.jammy_amd64.deb	==>>> Ubuntu 22.04/24.04
+sudo dpkg -i wkhtmltox_0.12.6-1.focal_amd64.deb	==>>> Ubuntu 20.04
+
+wkhtmltopdf --version
 ------------------------------------------------------------------------------
 pip install psycopg2 Werkzeug passlib Pillow reportlab lxml decorator python-dateutil polib lxml_html_clean psutil docutils num2words
 
 /pip install Wkhtmltopdf pydf pypdf2 html5lib image
 /sudo apt --fix-broken install
-/pip import Image
+sudo apt install graphicsmagick-imagemagick-compat
+pip install greenlet
+pip install pyproject.toml
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -127,6 +127,12 @@ cd
 sudo mkdir /opt/odoo16
 cd /opt/odoo16
 sudo git clone https://github.com/odoo/odoo.git -b 16.0 --depth=1
+---------------------------------------------------
+
+cd /opt/odoo16/odoo
+pip install -r requirements.txt
+TO CHECK REQUIREMENTS INSTALLATION:
+pybabel --version
 
 ------------------------
 
@@ -140,21 +146,13 @@ sudo -u postgres createuser -d -R -S $USER 	---------->>> Create postgres user: 
 /sudo -u postgres psql -c "ALTER USER odoo WITH SUPERUSER;"
 /sudo -u postgres psql -c "createuser --interactive;"
 /sudo -u postgres psql -c "drop database newdb;"
+createdb $USER
 
 sudo service postgresql restart
 /sudo reboot
 psql -l 	--------->> showing the databases 	===>>> q to exit from database list
 
 cd
-
----------------------------------------------------
-pip install greenlet
-pip install pyproject.toml
-
-cd /opt/odoo16/odoo
-pip install -r requirements.txt
-TO CHECK REQUIREMENTS INSTALLATION:
-pybabel --version
 
 -------------------------------------------------------------------------------------------
 Create Server Conf File ------------------------------------------
@@ -175,40 +173,37 @@ default_productivity_apps = True
 xmlrpc_port = 8069
 admin_passwd = 123456
 #########################################################################################
-ls -la /opt/odoo16/odoo
+
 sudo chown odoo:root /opt/odoo16/odoo/odoo16.conf
-ls -la
+ls -la /opt/odoo16/odoo
 sudo mkdir /var/log/odoo16
 sudo chown odoo:root /var/log/odoo16
-/ls -la /var/log
-/sudo nano /var/log/odoo16/odoo16.log
-/#
-/sudo chown odoo:root /var/log/odoo16/odoo16.log
-/ls -la /var/log/odoo16
+ls -la /var/log
+sudo nano /var/log/odoo16/odoo16.log
+#
+sudo chown odoo:root /var/log/odoo16/odoo16.log
+ls -la /var/log/odoo16
 
 ------------------------------------------------------------------------------------------
 sudo nano /etc/systemd/system/odoo16.service
 
 **************Add the following aspects to the newly created service file.**********************
 [Unit]
-Description=Odoo Open Source ERP and CRM
-After=network.target
+Description=Odoo 16.0 Open Source ERP and CRM
+Documentation=http://www.odoo.com
 
 [Service]
+# Ubuntu/Debian convention:
 Type=simple
 User=odoo
-Group=odoo
 ExecStart=/opt/odoo16/odoo/odoo-bin -c /opt/odoo16/odoo/odoo16.conf -l /var/log/odoo16/odoo16.log
-KillMode=mixed
 
 [Install]
 WantedBy=default.target
 ---------------------------------------------------------------------------------------------------------------
 ****Note: User her is the system USER****
-ls -la
 sudo chown odoo:root /etc/systemd/system/odoo16.service
 ls -la /etc/systemd/system
-
 sudo systemctl daemon-reload
 sudo systemctl enable odoo16.service
 sudo systemctl daemon-reload

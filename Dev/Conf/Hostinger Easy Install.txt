@@ -15,7 +15,8 @@ sudo apt remove --purge [python3.10]
 sudo ls -l /var/lib/dpkg/info | grep -i [python3.10]
 
 python3 --version
-/curl -sS https://bootstrap.pypa.io/get-pip.py | python3.10	==>>> install pip for python 3.10
+sudo apt remove python3-pip
+/curl -sS https://bootstrap.pypa.io/get-pip.py		 | python3.10	==>>> install pip for python 3.10
 pip3 --version
 sudo apt-get install -y python3-pip | or sudo apt install python3-pip
 /sudo reboot
@@ -32,7 +33,7 @@ curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 sudo sh -c 'echo "deb https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 sudo apt install python3-pip
 sudo apt update && sudo apt-get update && sudo apt upgrade && sudo apt-get upgrade
-sudo apt install postgresql postgresql-client | or sudo apt-get install postgresql
+sudo apt-get install -y postgresql-12 | or sudo apt install -y postgresql-12 postgresql-client
 
 ===================================================================================
 THIS IS A VERY IMPORTANT STEP TO RUN POSTGRES PROERLY
