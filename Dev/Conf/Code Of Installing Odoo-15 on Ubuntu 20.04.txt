@@ -145,7 +145,7 @@ You're done! As the warning dialog says when you start the operation, it may tak
 	pip install lxml==4.8.0
 	
 		sudo cp odoo.conf .odoorc
-		./odoo-bin server --save -c odoo.conf		--------->>> Run Odoo as Server Multi-Database
+		./odoo-bin server --save -c odoo16.conf		--------->>> Run Odoo as Server Multi-Database
 		./odoo-bin --save --stop-after-init		------->> start odoo (I think no need in the new versions)
 39- sudo cp /etc/odoo-server.conf /opt/odoo/odoo.conf  	---------->> move odoo-server.conf from etc to /opt/odoo/odoo.conf
 40- cd /opt/odoo/

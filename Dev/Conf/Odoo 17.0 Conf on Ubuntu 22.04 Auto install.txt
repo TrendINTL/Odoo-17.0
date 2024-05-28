@@ -1,0 +1,29 @@
+----------------------Conf File--------------------------------
+[options]
+db_host = False
+db_port = False
+db_user = odoo
+db_password = False
+addons_path = /opt/odoo16/odoo/addons
+default_productivity_apps = True
+xmlrpc_port = 8069
+admin_passwd = 123456
+----------------------------------------------------------------
+
+
+
+----------------------------------Service File on /lib/systemd/system---------------------------
+[Unit]
+Description=Odoo Open Source ERP and CRM
+After=network.target
+
+[Service]
+Type=simple
+User=odoo
+Group=odoo
+ExecStart=/usr/bin/odoo --config /etc/odoo/odoo.conf --logfile /var/log/odoo/odoo-server.log
+KillMode=mixed
+
+[Install]
+WantedBy=multi-user.target
+-------------------------------------------------------------------------------------------------
