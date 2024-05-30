@@ -2,7 +2,7 @@ https://www.digitalocean.com/community/tutorials/how-to-add-and-delete-users-on-
 /---	deluser newuser	---	sudo deluser newuser	----	deluser --remove-home newuser	----	sudo deluser --remove-home newuser
 /---	some_command	---	sudo some_command	---	
 /---	compgen -u ---	compgen -g
-/---	
+/---	sudo passwd odoo
 -------------Original from Postgres------------------------------
 1- # Import the repository signing key:
 sudo apt install curl ca-certificates
@@ -78,7 +78,7 @@ sudo rm -rf bin include lib lib64 pyvenv.cfg share	==>>> To Delete Vertial Envir
 /sudo cp apt_pkg.cpython-38-x86_64-linux-gnu.so apt_pkg.so
 
 sudo apt install python3.10
-alias python='/usr/bin/python3.10'
+/alias python='/usr/bin/python3.10'
 pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 /pip3 install jupyter-core nbformat traitlets packaging pandocfilters bleach pygments defusedxml
 

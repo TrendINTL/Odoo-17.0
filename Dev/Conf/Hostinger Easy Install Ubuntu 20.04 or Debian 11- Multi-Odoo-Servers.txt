@@ -1,22 +1,56 @@
 Ubuntu 20.04 or Debian 11 Odoo 16.0 Installation:
 ------------------------------------------------
 
-sudo adduser odoo
-sudo adduser alusys
-sudo adduser spl
-odoo Pass: 123456
-spl Pass: SPL@Trend-AI2024
-Full Name []: Odoo user for Try It Free
-Full Name: Aluminum System Construction Compant LTD
-Full Name: Splendor Trading Co
+python3 --version
 
-sudo usermod -aG sudo odoo
-sudo usermod -aG sudo alusys
-sudo usermod -aG sudo spl
+-------------------------------------
+IF NOT INSTALLED OR ANOTHER VERSIONS
+-------------------------------------
 
-sudo su odoo
-sudo su alusys
-sudo su spl
+python3 --version
+-------------------------------Change Python Version---------------------------
+/sudo apt install python3.10
+sudo add-apt-repository ppa:deadsnakes/ppa
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt list | grep python3.10
+sudo apt-get install python3.10
+/sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 2
+sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.10 1
+sudo update-alternatives --config python3
+python3 --version
+
+pip --version
+sudo cp apt_pkg.cpython-38-x86_64-linux-gnu.so apt_pkg.so
+sudo nano /usr/bin/add-apt-repository
+Change the first line to ==>>> #!/usr/bin/python3.10 
+sudo apt install python3-pip
+sudo apt install python3-pip --reinstall
+
+pip --version
+sudo systemctl restart getty@tty1.service
+sudo systemctl restart serial-getty@ttyS0.service
+sudo systemctl restart systemd-logind.service
+sudo systemctl restart unattended-upgrades.service
+sudo systemctl daemon-reload
+pip --version
+
+cd /usr/lib/python3/dist-packages
+/sudo cp apt_pkg.cpython-35m-x86_64-linux-gnu.so apt_pkg.so
+sudo cp apt_pkg.cpython-312-x86_64-linux-gnu.so apt_pkg.so
+sudo ln -s apt_pkg.cpython-312-x86_64-linux-gnu.so apt_pkg.so
+----------------------------------------------------------------------------------
+
+sudo apt-get update
+sudo apt-get upgrade -y
+
+
+sudo adduser erp
+erp Pass: erp
+Full Name []: ERP user for ERP Development & Installation
+sudo usermod -aG sudo erp
+sudo su erp			|	or open a new ssh session the best
+cd
 -------------------------
 
 ------------------------------------------------------------------------------
@@ -27,37 +61,26 @@ https://www.odoo.com/documentation/16.0/administration/on_premise/source.html |
 36- sudo rm -rf /usr/lib/python3.*/EXTERNALLY-MANAGED  	<<------THE MOST IMPORTANT COMMAND------>> to remve externally manage|
 =============================================================================================================================
 
--------------------------------------
-IF NOT INSTALLED OR ANOTHER VERSIONS
--------------------------------------
-
-python3 --version
-
-/sudo su odoo
-sudo apt-get update
-sudo apt-get upgrade
-/sudo apt-get install python3.10=3.10.14
-
-/sudo apt remove python3.12
-/sudo apt remove python3-pip
-/wget https://bootstrap.pypa.io/get-pip.py
-/sudo python3 get-pip.py
-/sudo apt-get install python3-apt --reinstall
-/cd /usr/lib/python3/dist-packages
-/sudo cp apt_pkg.cpython-38-x86_64-linux-gnu.so apt_pkg.so
-
-/sudo apt-get install python3.10
-alias python='/usr/bin/python3.10'
-pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
-
-
+/sudo useradd -m -d /opt/odoo17 -U -r -s /bin/bash odoo17
+/sudo passwd odoo17
+sudo adduser odoo17
+Name: Odoo 17.0 installation User
+sudo usermod -aG sudo odoo17
+/sudo usermod -aG sys odoo17
+groups odoo17
+sudo su odoo17
+cd
+/deluser odoo17 sudo
+/---	compgen -u ---	compgen -g
 
 sudo apt-get install git-all
 
 --------------------------------------
 INSTALL POSTGRES NAD ITS REQUIREMENTS
 --------------------------------------
-sudo apt install python3-pip libldap2-dev libpq-dev libsasl2-dev 	| 	or sudo apt-get install -y python3-pip libldap2-dev libpq-dev libsasl2-dev
+sudo apt install -y git python3-pip python3-dev python3-dev libxml2-dev libxslt1-dev zlib1g-dev libsasl2-dev libldap2-dev build-essential libssl-dev libffi-dev libmysqlclient-dev libjpeg-dev libpq-dev libjpeg8-dev liblcms2-dev libblas-dev libatlas-base-dev
+
+/sudo apt install python3-pip libldap2-dev libpq-dev libsasl2-dev 	| 	or sudo apt-get install -y python3-pip libldap2-dev libpq-dev libsasl2-dev
 pip --version
 
 sudo apt-get install curl ca-certificates gnupg
@@ -65,7 +88,7 @@ curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 sudo sh -c 'echo "deb https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 
 sudo apt update && sudo apt-get update && sudo apt upgrade && sudo apt-get upgrade
-sudo apt-get install -y postgresql-12 | or sudo apt install postgresql postgresql-client
+sudo apt-get install -y postgresql-12 | or sudo apt install -y postgresql-12 postgresql-12-client
 
 CHECK THE POSTGRES VERSION:
 psql --version
@@ -75,14 +98,16 @@ psql --version
 --------------------------------------
 INSTALL NODE JS NAD ITS REQUIREMENTS
 --------------------------------------
-sudo su
-13- sudo apt install npm -y  ---------------->> install node java script
-14- sudo npm cache clean --force       ------------>> to clean cache	===> sudo npm cache verify  <===
-15- sudo npm install -g n       ----------->>
-16- sudo n stable           --------->> install stable node js
+sudo apt-get install nodejs npm -y
+/sudo apt install npm -y  ---------------->> install node java script
+sudo npm install -g less less-plugin-clean-css
+sudo npm fund
+/sudo npm cache clean --force       ------------>> to clean cache	===> sudo npm cache verify  <===
+sudo npm install -g n       ----------->>
+sudo n stable           --------->> install stable node js
 	sudo npm cache clean --force
-17- sudo npm install -g npm    ------------->>
-18- sudo npm install rtlcss -g    --------------->> install right to left node js library
+sudo npm install -g npm    ------------->>
+sudo npm install rtlcss -g    --------------->> install right to left node js library
 	 sudo npm fund
 
 -------------------------------------------------------------------------------------------------------------------------
@@ -91,45 +116,51 @@ IINSTALL REQUIRED LIBRARIES FOR ODOO 16:
 
 -->> sudo apt-get install git python3-dev python3-pip python3-pypdf2 build-essential libxslt1-dev libxml2-dev libzip-dev libldap2-dev libldap2-dev libtiff5-dev libssl-dev libsasl2-dev liblcms2-dev libjpeg8-dev libopenjp2-7-dev zlib1g-dev libfreetype6-dev libwebp-dev libharfbuzz-dev libfribidi-dev libxcb1-dev libpq-dev
 -->> sudo apt-get install git libfontconfig1 libxrender1 fontconfig xfonts-base xfonts-75dpi libjpeg-turbo8  -------->> Install fonts libraries
+
 pybabel --version
 
 or:
-uname -a
-uname -i
-uname -m
-lsb_release -a
-sudo apt remove wkhtmltox
-sudo apt remove wkhtmltopdf
+/uname -a	uname -i	uname -m
+/lsb_release -a
+
+/sudo apt remove wkhtmltox
+/sudo apt remove wkhtmltopdf
 /10- https://wkhtmltopdf.org/downloads.html,
 /cd
 /wget http://security.ubuntu.com/ubuntu/pool/universe/w/wkhtmltopdf/wkhtmltopdf_0.12.6-2build2_amd64.deb		==>>> Ubuntu 24.04
 /sudo apt install wkhtmltopdf 			==>>> Ubuntu 24.04 Only
 /wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-3/wkhtmltox_0.12.6.1-3.jammy_amd64.deb	==>>> Ubuntu 22.04
-wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.focal_amd64.deb	==>>> Ubuntu 20.04
+/wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.focal_amd64.deb	==>>> Ubuntu 20.04
 /sudo dpkg -i wkhtmltopdf_0.12.6-2build2_amd64.deb
 /sudo dpkg -i wkhtmltox_0.12.6.1-3.jammy_amd64.deb	==>>> Ubuntu 22.04/24.04
-sudo dpkg -i wkhtmltox_0.12.6-1.focal_amd64.deb	==>>> Ubuntu 20.04
-
+/sudo dpkg -i wkhtmltox_0.12.6-1.focal_amd64.deb	==>>> Ubuntu 20.04
+/sudo apt install -f
 wkhtmltopdf --version
-------------------------------------------------------------------------------
-pip install psycopg2 Werkzeug passlib Pillow reportlab lxml decorator python-dateutil polib lxml_html_clean psutil docutils num2words
 
+------------------------------------------------------------------------------
+pip install psycopg2 Werkzeug passlib Pillow reportlab lxml decorator python-dateutil polib lxml_html_clean psutil docutils num2words pytz PyPDF2 babel idna requests greenlet pyproject.toml rjsmin
+pip install ebaysdk gevent ofxparse psycopg2 PyPDF2 python-ldap qrcode rjsmin vobject docopt
+pip install ebaysdk gevent ofxparse psycopg2 PyPDF2 python-ldap qrcode rjsmin vobject docopt
+
+/pip install rjsmin
 /pip install Wkhtmltopdf pydf pypdf2 html5lib image
 /sudo apt --fix-broken install
-sudo apt install graphicsmagick-imagemagick-compat
-pip install greenlet
-pip install pyproject.toml
+/sudo apt install graphicsmagick-imagemagick-compat
+/pip install greenlet
+/pip install lxml
+/pip install pyproject.toml
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-cd
-
-sudo mkdir /opt/odoo16
-cd /opt/odoo16
-sudo git clone https://github.com/odoo/odoo.git -b 16.0 --depth=1
+sudo mkdir /home/odoo17/tryitfree
+sudo chmod +X /home/odoo17/tryitfree
+sudo chown odoo17:root /home/odoo17/tryitfree
+cd /home/odoo17/tryitfree
+sudo git clone https://github.com/odoo/odoo.git -b 17.0 --depth=1
 ---------------------------------------------------
-
-cd /opt/odoo16/odoo
+sudo chown odoo17:root /home/odoo17/tryitfree/odoo
+sudo chmod +X /home/odoo17/tryitfree/odoo
+cd /home/odoo17/tryitfree/odoo
 pip install -r requirements.txt
 TO CHECK REQUIREMENTS INSTALLATION:
 pybabel --version
@@ -137,82 +168,95 @@ pybabel --version
 ------------------------
 
 CREATE POSTGRES USER:
+sudo su postgres
+/createuser --createdb --username postgres --no-createrole --no-superuser --pwprompt odoo17
+/Pass: Odoo17@U24.04
 sudo -u postgres createuser -d -R -S $USER 	---------->>> Create postgres user: alusys
+/psql
+/sudo -u postgres psql -c "ALTER USER odoo17 WITH SUPERUSER;"
+/q
 
 /createdb $USER 	---------->>> Create postgres Database: alusys
 /psql -w postgres	------------------>> run postgres with postgres database ===>>> \q for exit postgres
-/then --> sudo -u postgres psql -c "ALTER ROLE alusys WITH PASSWORD NULL;" or 'user-password';"   --->> NULL <<------------>> NO NEED: if the same ubuntu username "odoo"
-/sudo -u postgres psql -c "ALTER ROLE odoo WITH PASSWORD '123456';"
-/sudo -u postgres psql -c "ALTER USER odoo WITH SUPERUSER;"
+/then --> sudo -u postgres psql -c "ALTER ROLE odoo17 WITH PASSWORD NULL;" or 'user-password';"   --->> NULL <<------------>> NO NEED: if the same ubuntu username "odoo17"
+/sudo -u postgres psql -c "ALTER ROLE odoo17 WITH PASSWORD '123456';"
+/sudo -u postgres psql -c "ALTER USER odoo17 WITH SUPERUSER;"
 /sudo -u postgres psql -c "createuser --interactive;"
 /sudo -u postgres psql -c "drop database newdb;"
-createdb $USER
+/sudo -u postgres psql -c "drop role odoo17;"
+/createdb $USER
 
 sudo service postgresql restart
 /sudo reboot
 psql -l 	--------->> showing the databases 	===>>> q to exit from database list
 
-cd
+/cd
+
+/exit		==>>> exot from odoo17 user
 
 -------------------------------------------------------------------------------------------
 Create Server Conf File ------------------------------------------
 ------------------------------------------------------------------
+sudo mkdir /home/odoo17/addons
+sudo chown odoo17:root /home/odoo17/addons
+ls -la /home/odoo17
 
-sudo nano /opt/odoo16/odoo/odoo16.conf
+sudo mkdir /var/log/odoo17
+sudo chown odoo17:root /var/log/odoo17
+ls -la /var/log
 
+/sudo nano /var/log/odoo17/odoo17.log
+/#
+/sudo chown odoo:root /var/log/odoo17/odoo17.log
+/ls -la /var/log/odoo17
+
+sudo nano /etc/odoo17.conf
 Hostinger Odoo Conf File ------------------------------------------------------------
 #####################################################################################
 [options]
 db_host = False
 db_port = False
-; db_user = odoo
+; db_user = odoo17
 db_password = False
-addons_path = /opt/odoo16/odoo/addons
-log_file = /var/log/odoo16/odoo16.log
+addons_path = /home/odoo17/tryitfree/odoo/addons,/home/odoo17/addons
+log_file = /var/log/odoo17/odoo17.log
 default_productivity_apps = True
-xmlrpc_port = 8069
+xmlrpc_port = 8077
 admin_passwd = 123456
 #########################################################################################
-
-sudo chown odoo:root /opt/odoo16/odoo/odoo16.conf
-ls -la /opt/odoo16/odoo
-sudo mkdir /var/log/odoo16
-sudo chown odoo:root /var/log/odoo16
-ls -la /var/log
-sudo nano /var/log/odoo16/odoo16.log
-#
-sudo chown odoo:root /var/log/odoo16/odoo16.log
-ls -la /var/log/odoo16
+sudo chown odoo17:root /etc/odoo17.conf
+ls -la /etc
 
 ------------------------------------------------------------------------------------------
-sudo nano /etc/systemd/system/odoo16.service
 
+sudo nano /etc/systemd/system/odoo17.service
 **************Add the following aspects to the newly created service file.**********************
 [Unit]
-Description=Odoo 16.0 Open Source ERP and CRM
+Description=Odoo 17.0 Open Source ERP and CRM
 Documentation=http://www.odoo.com
 
 [Service]
 # Ubuntu/Debian convention:
 Type=simple
-User=odoo
-ExecStart=/opt/odoo16/odoo/odoo-bin -c /opt/odoo16/odoo/odoo16.conf -l /var/log/odoo16/odoo16.log
+User=odoo17
+ExecStart=/home/odoo17/tryitfree/odoo/odoo-bin --config /etc/odoo17.conf --logfile /var/log/odoo17/odoo17.log
 
 [Install]
 WantedBy=default.target
 ---------------------------------------------------------------------------------------------------------------
+ExecStart=/home/odoo17/tryitfree/odoo/odoo-bin -c /etc/odoo17.conf
 ****Note: User her is the system USER****
-sudo chown odoo:root /etc/systemd/system/odoo16.service
+sudo chown odoo17:root /etc/systemd/system/odoo17.service
 ls -la /etc/systemd/system
 sudo systemctl daemon-reload
-sudo systemctl enable odoo16.service
+sudo systemctl enable odoo17.service
 sudo systemctl daemon-reload
-sudo systemctl start odoo16.service
+sudo systemctl start odoo17.service
 ---------------------
 AFTER ENABLE SERVICE BY THE PREVIOUS COMMAND YOU CAN USE THE FOLLOWING COMMAN
 ---------------------
-sudo service odoo16 status	===>>> q to exit
-sudo tail -f /var/log/odoo16/odoo16.log
+sudo service odoo17 status	===>>> q to exit
+sudo tail -f /var/log/odoo16/odoo17.log
 
 
 -----------------------------------------------
@@ -245,7 +289,20 @@ pip install -r requirements.txt
 TO CHECK REQUIREMENTS INSTALLATION:
 pybabel --version
 
+----------------------------------Service File on /lib/systemd/system---------------------------
+[Unit]
+Description=Odoo Open Source ERP and CRM
+After=network.target
 
+[Service]
+Type=simple
+User=odoo17
+Group=odoo17
+ExecStart=/home/odoo17/tryitfree/odoo/odoo-bin --config /etc/odoo17.conf --logfile /var/log/odoo17/odoo17.log
+KillMode=mixed
 
+[Install]
+WantedBy=multi-user.target
+-------------------------------------------------------------------------------------------------
 
 =========================================================تم بحمد الله================================================================
