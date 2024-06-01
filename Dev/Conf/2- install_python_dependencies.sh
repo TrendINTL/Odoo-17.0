@@ -1,4 +1,31 @@
 #!/bin/bash
+echo -e "\n
+###############################################################################\n
+# ########################################################################### #\n
+# #                                                                         # #\n
+# # ########  #####    ######  ###     ##  #####           #####      ##### # #\n
+# #    ##     ##  ##   ##      ## #    ##  ##  ###        ### ###      # #  # #\n
+# #    ##     ######   ## ##   ##  #   ##  ##   ###      ###   ###     # #  # #\n
+# #    ##     ##  ##   ## ##   ##   #  ##  ##   ###     ###########    # #  # #\n
+# #    ##     ##   ##  ##      ##    # ##  ##  ###     ###       ###   # #  # #\n
+# #    ##     ##   ##  ######  ##     ###  #####      ####       #### ##### # #\n
+# #                                                                         # #\n
+# ########################################################################### #\n
+###############################################################################
+"
+# Script for installing Odoo 17.0 on Ubuntu 24.04
+# Author: AHMED OUF
+#-------------------------------------------------------------------------------
+# This script will install Odoo on your Ubuntu server. It can install multiple Odoo instances
+# in one Ubuntu because of the different xmlrpc_ports
+#-------------------------------------------------------------------------------
+# Make a new file:
+# sudo nano install_python_dependencies.sh
+# Place this content in it and then make the file executable:
+# sudo chmod +x install_python_dependencies.sh
+# Execute the script to install Odoo 17.0:
+# ./install_python_dependencies.sh
+################################################################################
 
 # Update package lists
 sudo apt update

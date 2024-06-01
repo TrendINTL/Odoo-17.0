@@ -1,23 +1,29 @@
 #!/bin/bash
-
+echo -e "\n
+###############################################################################\n
+# ########################################################################### #\n
+# #                                                                         # #\n
+# # ########  #####    ######  ###     ##  #####           #####      ##### # #\n
+# #    ##     ##  ##   ##      ## #    ##  ##  ###        ### ###      # #  # #\n
+# #    ##     ######   ## ##   ##  #   ##  ##   ###      ###   ###     # #  # #\n
+# #    ##     ##  ##   ## ##   ##   #  ##  ##   ###     ###########    # #  # #\n
+# #    ##     ##   ##  ##      ##    # ##  ##  ###     ###       ###   # #  # #\n
+# #    ##     ##   ##  ######  ##     ###  #####      ####       #### ##### # #\n
+# #                                                                         # #\n
+# ########################################################################### #\n
 ###############################################################################
-# ########################################################################### #
-# #                                                                         # #
-# # ########  #####    ######  ###     ##  #####           #####      ##### # #
-# #    ##     ##  ##   ##      ## #    ##  ##  ###        ### ###      # #  # #
-# #    ##     ######   ## ##   ##  #   ##  ##   ###      ###   ###     # #  # #
-# #    ##     ##  ##   ## ##   ##   #  ##  ##   ###     ###########    # #  # #
-# #    ##     ##   ##  ##      ##    # ##  ##  ###     ###       ###   # #  # #
-# #    ##     ##   ##  ######  ##     ###  #####      ####       #### ##### # #
-# #                                                                         # #
-# ########################################################################### #
-###############################################################################
+"
 # Script for installing Odoo 17.0 on Ubuntu 24.04
 # Author: AHMED OUF
 #-------------------------------------------------------------------------------
 # This script will install Odoo on your Ubuntu server. It can install multiple Odoo instances
 # in one Ubuntu because of the different xmlrpc_ports
 #-------------------------------------------------------------------------------
+# sudo adduser odoo17
+# Name: Odoo 17.0 installation User
+# sudo usermod -aG sudo odoo17
+# sudo su odoo17
+# cd
 # Make a new file:
 # sudo nano odoo17_install.sh
 # Place this content in it and then make the file executable:
@@ -26,14 +32,14 @@
 # ./odoo17_install.sh
 ################################################################################
 
-# Update and upgrade the system
+echo -e "\n #---Install Python3.10 & Update and upgrade the system---#"
 sudo apt update
 sudo apt upgrade -y
 
-# Install necessary dependencies
+echo -e "\n #---# Install necessary dependencies---#"
 sudo apt install -y git build-essential wget python3-dev python3-wheel libxslt-dev libzip-dev libldap2-dev libsasl2-dev python3-setuptools gdebi-core libpq-dev
 
-# Install Python 3.10
+echo -e "\n #---Install Python 3.10 venv---#"
 sudo apt install -y python3.10 python3.10-venv
 
 # Create a Python virtual environment
@@ -41,6 +47,7 @@ python3.10 -m venv odoo_env
 
 # Activate the virtual environment
 source odoo_env/bin/activate
+pip install --upgrade pip
 
 # Handle Jinja2 conflict
 pip uninstall -y Jinja2
@@ -68,13 +75,13 @@ pip install \
     Pillow==9.4.0 \
     polib==1.1.1 \
     psutil==5.9.4 \
-    psycopg2==2.9.5 \
+    psycopg \
     pydot==1.4.2 \
     pyopenssl==21.0.0 \
-    PyPDF2==2.12.1 \
+    PyPDF2==4.2.0 \
     pyserial==3.5 \
     python-dateutil==2.8.1 \
-    python-ldap==3.4.0 \
+    python3-ldap \
     python-stdnum==1.17 \
     pyusb==1.2.1 \
     qrcode==7.3.1 \
@@ -96,7 +103,8 @@ deactivate
 sudo apt install -y postgresql
 
 # Create PostgreSQL user for Odoo
-sudo -u postgres psql -c "CREATE USER odoo17 WITH CREATEDB PASSWORD '123456';"
+sudo -u postgres createuser -d -R -S $USER
+sudo service postgresql restart
 
 # Install libssl1.1 manually
 wget http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2_amd64.deb
@@ -107,16 +115,22 @@ rm libssl1.1_1.1.1f-1ubuntu2_amd64.deb
 wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.bionic_amd64.deb
 sudo apt install -y ./wkhtmltox_0.12.6-1.bionic_amd64.deb
 rm wkhtmltox_0.12.6-1.bionic_amd64.deb
+sudo apt install -f
 
 # Install Node.js and npm
 sudo apt install -y nodejs npm
 
 # Create Odoo directory
 sudo mkdir /opt/odoo17
+sudo chmod +x /opt/odoo17
 sudo chown $USER:$USER /opt/odoo17
 
 # Clone Odoo repository
 git clone https://www.github.com/odoo/odoo --branch 17.0 --depth 1 /opt/odoo17/odoo
+
+# Change Odoo Directory Own and Conf:
+sudo chmod +x /opt/odoo17/odoo
+sudo chown $USER:$USER /opt/odoo17/odoo
 
 # Create Python virtual environment in Odoo directory
 python3.10 -m venv /opt/odoo17/odoo/venv
@@ -130,37 +144,58 @@ pip install -r /opt/odoo17/odoo/requirements.txt
 # Deactivate the virtual environment
 deactivate
 
+# Create Addons File
+sudo mkdir /opt/odoo17/addons
+sudo chmod +x /opt/odoo17/addons
+sudo chown $USER:$USER /opt/odoo17/addons
+
+# Create Server Log File
+sudo mkdir /var/log/odoo17
+sudo chmod +x /var/log/odoo17
+sudo chown $USER:$USER /var/log/odoo17
+
 # Create Odoo configuration file
 sudo tee /etc/odoo17.conf > /dev/null <<EOF
 [options]
-   ; This is the password that allows database operations:
-   admin_passwd = admin
-   db_host = False
-   db_port = False
-   db_user = odoo17
-   db_password = 123456
-   addons_path = /opt/odoo17/odoo/addons
-   logfile = /var/log/odoo17/odoo.log
+; This is the password that allows database operations:
+; admin_passwd = 123456
+db_host = False
+db_port = False
+; db_user = odoo17
+db_password = False
+addons_path = /opt/odoo17/odoo/addons, /opt/odoo17/addons
+logfile = /var/log/odoo17/odoo17.log
+xmlrpc_port = 8069
 EOF
+
+# Change Conf File Own and Conf:
+sudo chmod +x /etc/odoo17.conf
+sudo chown $USER:$USER /etc/odoo17.conf
 
 # Create systemd service file for Odoo
 sudo tee /etc/systemd/system/odoo17.service > /dev/null <<EOF
 [Unit]
-Description=Odoo
+Description=Odoo 17.0
 Documentation=https://www.odoo.com
 [Service]
 # Ubuntu/Debian convention:
 Type=simple
 User=$USER
-ExecStart=/opt/odoo17/odoo/venv/bin/python3 /opt/odoo17/odoo/odoo-bin -c /etc/odoo17.conf
+ExecStart=/opt/odoo17/odoo/venv/bin/python3 /opt/odoo17/odoo/odoo-bin -c /etc/odoo17.conf -l /var/log/odoo17/odoo17.log
 [Install]
 WantedBy=default.target
 EOF
 
+# Change Service File Own and Conf:
+sudo chmod +x /etc/systemd/system/odoo17.service
+sudo chown $USER:$USER /etc/systemd/system/odoo17.service
+
 # Start and enable Odoo service
 sudo systemctl daemon-reload
-sudo systemctl start odoo17
-sudo systemctl enable odoo17
+sudo systemctl start odoo17.service
+sudo systemctl enable odoo17.service
+sudo systemctl restart odoo17.service
+sudo service odoo17 restart
 
 # Allow HTTP and HTTPS traffic through the firewall
 sudo ufw allow http

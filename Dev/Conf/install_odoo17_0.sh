@@ -22,6 +22,7 @@ rm wkhtmltox_0.12.6-1.bionic_amd64.deb
 
 # Create Odoo directory
 sudo mkdir /opt/odoo17
+
 sudo chown $USER:$USER /opt/odoo17
 
 # Clone Odoo repository
