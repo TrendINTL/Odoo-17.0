@@ -26,7 +26,7 @@ echo -e "\n
 # cd
 # sudo add-apt-repository ppa:deadsnakes/ppa
 # sudo apt-get update
-# sudo apt-get upgrade
+# sudo apt-get upgrade -y
 # sudo apt list | grep python3.10
 # sudo apt-get install python3.10
 # sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 2
@@ -37,8 +37,14 @@ echo -e "\n
 # sudo cp apt_pkg.cpython-38-x86_64-linux-gnu.so apt_pkg.so
 # sudo nano /usr/bin/add-apt-repository
 # Change the first line to ==>>> #!/usr/bin/python3.10 
+# source /opt/odoo17/tryitfree/odoo/venv/bin/activate
 # sudo apt install python3-pip
 # sudo apt install python3-pip --reinstall
+# pip install --upgrade pip 
+# pip install PyPDF2
+# pip install psycopg2-binary
+# pip install lxml_html_clean
+# pip install Jinja2
 # Make a new file:
 # sudo nano odoo17_install.sh
 # Place this content in it and then make the file executable:
@@ -83,6 +89,8 @@ pip install \
     idna==2.10 \
     libsass==0.20.1 \
     lxml==5.2.1 \
+    lxml_html_clean \
+    Jinja2 \
     MarkupSafe==2.1.2 \
     num2words==0.5.10 \
     ofxparse==0.21 \
@@ -90,10 +98,10 @@ pip install \
     Pillow==9.4.0 \
     polib==1.1.1 \
     psutil==5.9.4 \
-    psycopg \
+    psycopg2-binary \
     pydot==1.4.2 \
     pyopenssl==21.0.0 \
-    PyPDF2==4.2.0 \
+    PyPDF2 \
     pyserial==3.5 \
     python-dateutil==2.8.1 \
     python3-ldap \
@@ -139,22 +147,70 @@ sudo apt install -y nodejs npm
 sudo mkdir /opt/odoo17
 sudo chmod +x /opt/odoo17
 sudo chown $USER:$USER /opt/odoo17
+sudo mkdir /opt/odoo17/tryitfree
+sudo chmod +x /opt/odoo17/tryitfree
+sudo chown $USER:$USER /opt/odoo17/tryitfree
 
 # Clone Odoo repository
-git clone https://www.github.com/odoo/odoo --branch 17.0 --depth 1 /opt/odoo17/odoo
+git clone https://www.github.com/odoo/odoo --branch 17.0 --depth 1 /opt/odoo17/tryitfree/odoo
 
 # Change Odoo Directory Own and Conf:
-sudo chmod +x /opt/odoo17/odoo
-sudo chown $USER:$USER /opt/odoo17/odoo
+sudo chmod +x /opt/odoo17/tryitfree/odoo
+sudo chown $USER:$USER /opt/odoo17/tryitfree/odoo
 
 # Create Python virtual environment in Odoo directory
-python3.10 -m venv /opt/odoo17/odoo/venv
+python3.10 -m venv /opt/odoo17/tryitfree/odoo/venv
 
 # Activate the virtual environment
-source /opt/odoo17/odoo/venv/bin/activate
+source /opt/odoo17/tryitfree/odoo/venv/bin/activate
+
+# Install Python dependencies with resolved versions
+pip install \
+    Babel==2.9.1 \
+    chardet==4.0.0 \
+    cryptography==3.4.8 \
+    decorator==4.4.2 \
+    docutils==0.17 \
+    ebaysdk==2.1.5 \
+    freezegun==1.1.0 \
+    geoip2==2.9.0 \
+    gevent==22.10.2 \
+    greenlet==2.0.2 \
+    idna==2.10 \
+    libsass==0.20.1 \
+    lxml==5.2.1 \
+    lxml_html_clean \
+    Jinja2 \
+    MarkupSafe==2.1.2 \
+    num2words==0.5.10 \
+    ofxparse==0.21 \
+    passlib==1.7.4 \
+    Pillow==9.4.0 \
+    polib==1.1.1 \
+    psutil==5.9.4 \
+    psycopg2-binary \
+    pydot==1.4.2 \
+    pyopenssl==21.0.0 \
+    PyPDF2 \
+    pyserial==3.5 \
+    python-dateutil==2.8.1 \
+    python3-ldap \
+    python-stdnum==1.17 \
+    pyusb==1.2.1 \
+    qrcode==7.3.1 \
+    reportlab==3.6.12 \
+    requests==2.25.1 \
+    rjsmin==1.1.0 \
+    urllib3==1.26.5 \
+    vobject==0.9.6.1 \
+    Werkzeug==2.0.2 \
+    xlrd==1.2.0 \
+    XlsxWriter==3.0.2 \
+    xlwt==1.3.* \
+    zeep==4.1.0
 
 # Install required Python packages for Odoo
-pip install -r /opt/odoo17/odoo/requirements.txt
+pip install -r /opt/odoo17/tryitfree/odoo/requirements.txt
 
 # Deactivate the virtual environment
 deactivate
@@ -178,7 +234,7 @@ db_host = False
 db_port = False
 ; db_user = odoo17
 db_password = False
-addons_path = /opt/odoo17/odoo/addons, /opt/odoo17/addons
+addons_path = /opt/odoo17/tryitfree/odoo/addons, /opt/odoo17/addons
 logfile = /var/log/odoo17/odoo17.log
 xmlrpc_port = 8069
 EOF
@@ -196,7 +252,7 @@ Documentation=https://www.odoo.com
 # Ubuntu/Debian convention:
 Type=simple
 User=$USER
-ExecStart=/opt/odoo17/odoo/venv/bin/python3 /opt/odoo17/odoo/odoo-bin -c /etc/odoo17.conf -l /var/log/odoo17/odoo17.log
+ExecStart=/opt/odoo17/tryitfree/odoo/venv/bin/python3 /opt/odoo17/tryitfree/odoo/odoo-bin -c /etc/odoo17.conf -l /var/log/odoo17/odoo17.log
 [Install]
 WantedBy=default.target
 EOF
@@ -213,7 +269,7 @@ sudo systemctl restart odoo17.service
 sudo service odoo17 restart
 
 # Allow HTTP and HTTPS traffic through the firewall
-sudo ufw allow http
-sudo ufw allow https
+#sudo ufw allow http
+#sudo ufw allow https
 
 echo "Odoo 17 installation is complete. You can access it at http://your_server_ip:8069"
