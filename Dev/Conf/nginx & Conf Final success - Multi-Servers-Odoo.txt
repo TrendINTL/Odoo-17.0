@@ -230,19 +230,24 @@ sudo tail -f /var/log/nginx/odoo17.error.log
 ===================================================================================================================
 6- TO ADD SSL CERTIFICATE TO YOUR DOMAIN FOR ODOO SERVER
 ===================================================================================================================
-
-sudo certbot delete
-
+MAKE SURE:
+/Make shore to change the port: "server 127.0.0.1:8087;" & the server_name: "server_name server_name alus.trend-ai.tech www.alus.trend-ai.tech;"
 /sudo nano /etc/nginx/sites-enabled/odoo17.conf
 /Change the server name as below
 /server_name odoo17.trend-ai.tech www.odoo17.trend-ai.tech;
-
-/sudo nginx -t
-/sudo systemctl reload nginx
-/sudo certbot		===>>>> Automatically Chechs the enabled websites and give you options which one you want to install certificate/s
-
-/Make shore to change the port: "server 127.0.0.1:8087;" & the server_name: "server_name server_name alus.trend-ai.tech www.alus.trend-ai.tech;"
-/sudo nano /etc/nginx/sites-available/alusys.conf
+----------------------------------------------------------------------------
+If Certbot Already Installed & you wand to delete certificates
+sudo certbot delete
+----------------------------------------------------------------------------
+if not
+source odoo_env/bin/activate		==>> I'm no sure that you have to activate vertual environment or not
+sudo apt remove python3-cffi		==>>> If it was already installed
+sudo python3 -m pip install cffi	==>>> Install it to activate ssl
+sudo nginx -t
+sudo systemctl reload nginx
+------------------------------------------------------------------------------
+sudo certbot		===>>>> Automatically Chechs the enabled websites and give you options which one you want to install certificate/s
+Required Email: trenders.intl@gmail.com
 
 ===================================================================================================================
 7- RENEW SSL CERTIFICATE TO YOUR DOMAIN FOR ODOO SERVER
