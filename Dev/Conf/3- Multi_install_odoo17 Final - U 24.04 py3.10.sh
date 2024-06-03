@@ -151,8 +151,6 @@ sudo systemctl enable alus.service
 sudo systemctl restart alus.service
 sudo service alus restart
 
-# Allow HTTP and HTTPS traffic through the firewall
-#sudo ufw allow http
-#sudo ufw allow https
-
 echo "Odoo 17 installation for ALUS is complete. You can access it at http://your_server_ip:8087"
+echo "Do Not Forget to Add Certbot Certificate using command: sudo certbot"
+echo "Do Not Forget to Activate Firewall using command: sudo ufw allow 'Nginx Full' & sudo ufw delete allow 'Nginx HTTP'"
