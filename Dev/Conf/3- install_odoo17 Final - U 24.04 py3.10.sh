@@ -19,14 +19,11 @@ echo -e "\n
 # This script will install Odoo on your Ubuntu server. It can install multiple Odoo instances
 # in one Ubuntu because of the different xmlrpc_ports
 #-------------------------------------------------------------------------------
-# sudo adduser odoo17
-# Name: Odoo 17.0 installation User
-# sudo usermod -aG sudo odoo17
-# sudo su odoo17
-# cd
+# cd ~
 # sudo add-apt-repository ppa:deadsnakes/ppa
-# sudo apt-get update
-# sudo apt-get upgrade -y
+# sudo apt update && sudo apt-get update && sudo apt upgrade && sudo apt-get upgrade
+# /sudo apt-get update
+# /sudo apt-get upgrade -y
 # sudo apt list | grep python3.10
 # sudo apt-get install python3.10
 # sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 2
@@ -35,8 +32,8 @@ echo -e "\n
 # python3 --version
 # pip --version
 # sudo cp apt_pkg.cpython-38-x86_64-linux-gnu.so apt_pkg.so
-# sudo nano /usr/bin/add-apt-repository
-# Change the first line to ==>>> #!/usr/bin/python3.10 
+# /sudo nano /usr/bin/add-apt-repository
+# /Change the first line to ==>>> #!/usr/bin/python3.10 
 # source /opt/odoo17/tryitfree/odoo/venv/bin/activate
 # sudo apt install python3-pip
 # sudo apt install python3-pip --reinstall

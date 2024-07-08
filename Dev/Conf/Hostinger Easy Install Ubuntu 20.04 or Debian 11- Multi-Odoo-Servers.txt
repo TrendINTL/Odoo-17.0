@@ -44,15 +44,6 @@ sudo ln -s apt_pkg.cpython-312-x86_64-linux-gnu.so apt_pkg.so
 sudo apt-get update
 sudo apt-get upgrade -y
 
-
-sudo adduser erp
-erp Pass: erp
-Full Name []: ERP user for ERP Development & Installation
-sudo usermod -aG sudo erp
-sudo su erp			|	or open a new ssh session the best
-cd
--------------------------
-
 ------------------------------------------------------------------------------
 https://www.odoo.com/documentation/17.0/administration/on_premise/source.html |
 https://www.odoo.com/documentation/16.0/administration/on_premise/source.html |
