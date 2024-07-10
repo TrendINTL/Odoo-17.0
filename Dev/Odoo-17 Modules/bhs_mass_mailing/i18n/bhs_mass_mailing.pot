@@ -1,0 +1,55 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* bhs_mass_mailing
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-02-09 02:03+0000\n"
+"PO-Revision-Date: 2023-02-09 02:03+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: bhs_mass_mailing
+#: model:ir.actions.server,name:bhs_mass_mailing.action_add_to_blacklist
+msgid "Add to Blacklist"
+msgstr ""
+
+#. module: bhs_mass_mailing
+#. odoo-python
+#: code:addons/bhs_mass_mailing/models/mailing.py:0
+#, python-format
+msgid "Email must be unique."
+msgstr ""
+
+#. module: bhs_mass_mailing
+#: model:ir.model,name:bhs_mass_mailing.model_mailing_contact
+msgid "Mailing Contact"
+msgstr ""
+
+#. module: bhs_mass_mailing
+#: model:ir.actions.server,name:bhs_mass_mailing.ir_cron_mailing_contact_clean_duplicate_ir_actions_server
+#: model:ir.cron,cron_name:bhs_mass_mailing.ir_cron_mailing_contact_clean_duplicate
+msgid "Mailing contact: Clean duplicate"
+msgstr ""
+
+#. module: bhs_mass_mailing
+#: model:ir.actions.server,name:bhs_mass_mailing.ir_cron_mailing_contact_clean_ir_actions_server
+#: model:ir.cron,cron_name:bhs_mass_mailing.ir_cron_mailing_contact_clean
+msgid "Mailing contact: Clean suppressed"
+msgstr ""
+
+#. module: bhs_mass_mailing
+#: model:ir.model,name:bhs_mass_mailing.model_mailing_mailing
+msgid "Mass Mailing"
+msgstr ""
+
+#. module: bhs_mass_mailing
+#: model:ir.model.fields,field_description:bhs_mass_mailing.field_mailing_mailing__schedule_date
+msgid "Scheduled for"
+msgstr ""

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+       <record model="ir.ui.view" id="bhs_mailing_contacted_view_tree">
+            <field name="name">bhs.mailing.contacted.view.tree</field>
+            <field name="model">mailing.contact.contacted</field>
+            <field name="arch" type="xml">
+                  <tree string="Mailing Contacted">
+                    <field name="email"/>
+                </tree>
+            </field>
+       </record>
+
+       <record model="ir.ui.view" id="bhs_mailing_contacted_view_form">
+            <field name="name">bhs.mailing.contacted.view.form</field>
+            <field name="model">mailing.contact.contacted</field>
+            <field name="arch" type="xml">
+                  <form string="Mailing Contacted">
+                    <sheet>
+                        <group>
+                          <field name="email"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+       </record>
+
+    <record id="bhs_mailing_contacted_view_search" model="ir.ui.view">
+        <field name="name">bhs.mailing.contacted.view.search</field>
+        <field name="model">mailing.contact.contacted</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="email"/>
+            </search>
+        </field>
+    </record>
+
+      <record model="ir.actions.act_window" id="act_bhs_mailing_contacted_view">
+            <field name="name">Mailing Contacted</field>
+            <field name="res_model">mailing.contact.contacted</field>
+            <field name="view_mode">tree,form</field>
+      </record>
+      <menuitem id="menu_bhs_mailing_contacted" name="Mailing Contacted" action="act_bhs_mailing_contacted_view" parent="mass_mailing.mass_mailing_configuration" sequence="21"/>
+</odoo>

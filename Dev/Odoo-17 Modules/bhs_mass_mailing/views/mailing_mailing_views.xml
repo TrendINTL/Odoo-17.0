@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <!--  MAILING !-->
+
+        <!-- Inherited form view for mass mailing's form specifically -->
+        <record model="ir.ui.view" id="mailing_mailing_view_form">
+            <field name="name">mailing.mailing.view.form.inherited</field>
+            <field name="inherit_id" ref="mass_mailing.view_mail_mass_mailing_form"/>
+            <field name="mode">extension</field>
+            <field name="model">mailing.mailing</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='contact_list_ids']" position="attributes">
+<!--                    <attribute name="attrs">{'required':[('mailing_model_name','=','mailing.list'),('state', '!=', 'done')], 'readonly': [('state', 'in', ('sending', 'done'))]}</attribute>-->
+                    <attribute name="required">mailing_model_name == 'mailing.list' and state != 'done'</attribute>
+                    <attribute name="readonly">state in ['sending', 'done']</attribute>
+                </xpath>
+
+            </field>
+        </record>
+
+<!--    Action server to add mailing contact to blacklist using add_to_blacklist method, bind on list view-->
+        <record id="action_add_to_blacklist" model="ir.actions.server">
+            <field name="name">Add to Blacklist</field>
+            <field name="model_id" ref="model_mailing_contact"/>
+            <field name="binding_model_id" ref="model_mailing_contact"/>
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="code">records.add_to_blacklist()</field>
+        </record>
+
+        <record id="action_clean_blacklist_in_contact_lists" model="ir.actions.server">
+            <field name="name">Clean blacklist in contact lists</field>
+            <field name="model_id" ref="model_mailing_contact"/>
+<!--            <field name="binding_model_id" ref="model_mailing_contact"/>-->
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="code">model.clean_blacklist_email_in_contact_lists()</field>
+        </record>
+
+        <menuitem id="bh_clean_blacllist_in_contact_list_menu"
+                    name="Clean blacklist in contact lists"
+                    parent="mass_mailing.mass_mailing_configuration"
+                    action="action_clean_blacklist_in_contact_lists"
+                    sequence="30"/>
+
+</odoo>

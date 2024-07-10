@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mailing_blacklist_domain_mass_mailing_user,access.mailing.blacklist.domain.mass_mailing_user,bhs_mass_mailing.model_mailing_blacklist_domain,mass_mailing.group_mass_mailing_user,1,1,1,1
+access_mailing_contact_contacted,access.mailing.contact.contacted,bhs_mass_mailing.model_mailing_contact_contacted,mass_mailing.group_mass_mailing_user,1,1,1,1

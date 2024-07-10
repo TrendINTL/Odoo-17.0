@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<odoo>
+    <record model="ir.ui.view" id="mailing_contact_to_list_view_form">
+        <field name="name">mailing.contact.to.list.view.form.inherited</field>
+        <field name="model">mailing.contact.to.list</field>
+        <field name="inherit_id" ref="mass_mailing.mailing_contact_to_list_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_add_contacts']" position="after">
+                <button string="Add and Remove from old list"
+                        name="action_add_contacts_and_remove_from_old_list"
+                        type="object" class="btn-primary"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

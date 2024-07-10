@@ -1,0 +1,79 @@
+<odoo>
+    <record id="res_partner_customer_social_accounts_links" model="ir.ui.view">
+        <field name="name">res.partner.customer.social.accounts.links</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+
+                <page string="Social Media" name="social_media">
+                    <group>
+                        <field name="facebook_link"/>
+                        <field name="instagram_link"/>
+                        <field name="pinterest_link"/>
+                        <field name="twitter_link"/>
+                        <field name="linkedin_link"/>
+                        <field name="youtube_link"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="res_partner_kanban_customer_social_accounts_links" model="ir.ui.view">
+        <field name="name">res.partner.kanban.customer.social.accounts.links</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.res_partner_kanban_view"/>
+        <field name="arch" type="xml">
+            <field name="mobile" position="after">
+                <field name="facebook_link"/>
+            </field>
+            <xpath expr="//div[hasclass('oe_kanban_bottom_left')]" position="inside">
+                <a t-if="record.facebook_link.raw_value" data-type="action">
+                    <i class="fa fa-facebook" role="img" aria-label="Facebook" title="Facebook"/>
+                </a>
+            </xpath>
+            <field name="mobile" position="after">
+                <field name="instagram_link"/>
+            </field>
+            <xpath expr="//div[hasclass('oe_kanban_bottom_left')]" position="inside">
+                <a t-if="record.instagram_link.raw_value" data-type="action">
+                    <i class="fa fa-instagram" role="img" aria-label="Instagram" title="Instagram"/>
+                </a>
+            </xpath>
+            <field name="mobile" position="after">
+                <field name="pinterest_link"/>
+            </field>
+            <xpath expr="//div[hasclass('oe_kanban_bottom_left')]" position="inside">
+                <a t-if="record.pinterest_link.raw_value" data-type="action">
+                    <i class="fa fa-pinterest" role="img" aria-label="Pinterest" title="Pinterest"/>
+                </a>
+            </xpath>
+            <field name="mobile" position="after">
+                <field name="twitter_link"/>
+            </field>
+            <xpath expr="//div[hasclass('oe_kanban_bottom_left')]" position="inside">
+                <a t-if="record.twitter_link.raw_value" data-type="action">
+                    <i class="fa fa-twitter" role="img" aria-label="Twitter" title="Twitter"/>
+                </a>
+            </xpath>
+            <field name="mobile" position="after">
+                <field name="linkedin_link"/>
+            </field>
+            <xpath expr="//div[hasclass('oe_kanban_bottom_left')]" position="inside">
+                <a t-if="record.linkedin_link.raw_value" data-type="action">
+                    <i class="fa fa-linkedin" role="img" aria-label="Linkedin" title="Linkedin"/>
+                </a>
+            </xpath>
+            <field name="mobile" position="after">
+                <field name="youtube_link"/>
+            </field>
+            <xpath expr="//div[hasclass('oe_kanban_bottom_left')]" position="inside">
+                <a t-if="record.youtube_link.raw_value" data-type="action">
+                    <i class="fa fa-youtube-play" role="img" aria-label="Youtube" title="Youtube"/>
+                </a>
+            </xpath>
+        </field>
+    </record>
+</odoo>
+

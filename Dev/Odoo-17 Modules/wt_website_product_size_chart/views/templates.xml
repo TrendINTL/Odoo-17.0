@@ -1,0 +1,39 @@
+<odoo>
+  <data>
+    <template id="modal_product_size_chart" name="Modal for product size chart">
+
+      <t t-set="size_chart" t-value="product._get_size_chart()"/>
+      <t t-if="size_chart">
+        <button type="button" role="button" class="btn btn-link px-0 pe-3" title="Size Chart" data-bs-toggle="modal" data-bs-target="#modal_product_size_chart">
+          <i class="fa fa-th me-2" role="img" aria-label="Size Chart"/>
+          <span t-field="size_chart.link_text"></span>
+        </button>
+
+        <div t-if="size_chart" class="modal fade" id="modal_product_size_chart" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 t-field="size_chart.link_text"/>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body p-4">
+                <div class="row">
+                  <div class="col-md-12">
+                    <h5>Size Chart</h5>
+                    <hr/>
+                    <div t-field="size_chart.template" widget="html"/>
+                  </div>
+                  <div class="col-md-12">
+                    <h5>How To Measure</h5>
+                    <hr/>
+                    <div t-field="size_chart.how_to_measure" widget="html"/>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </t>
+    </template>
+  </data>
+</odoo>
