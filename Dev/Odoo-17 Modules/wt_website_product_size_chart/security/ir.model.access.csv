@@ -1,4 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_website_product_size_chart_public,website.product.size.chart.public,model_website_product_size_chart,base.group_user,1,0,0,0
-access_website_product_size_chart_sale_manager,website.product.size.chart.sale_manager,model_website_product_size_chart,sales_team.group_sale_manager,1,1,1,1
-access_website_product_size_chart_group_public,website.product.size.chart.group_public,model_website_product_size_chart,base.group_public,1,0,0,0

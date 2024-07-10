@@ -1,1 +1,0 @@
-from . import mailing_contact_to_list

@@ -1,1 +1,0 @@
-This module helps users to manage signature for each model.

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<odoo>
-  <template id="website_sale_product_website_product_size_chart" inherit_id="website_sale.product">
-    <xpath expr="//div[@id='product_option_block']" position="inside">
-      <t t-call="wt_website_product_size_chart.modal_product_size_chart"/>
-    </xpath>
-  </template>
-</odoo>
