@@ -1,0 +1,20 @@
+<odoo>
+    <record id="project_project_inherited_assign_level_form_view" model="ir.ui.view">
+        <field name="name">project.project.inherited.assign.level.form.view</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Assign Level">
+                    <field name="assign_level">
+                        <tree editable="bottom">
+                            <field name="project_id" invisible="1"/>
+                            <field name="stage_id"/>
+                            <field name="user_id"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

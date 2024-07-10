@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+project_assign_level_user,project.assign.level.user,model_project_assign_level,,1,0,0,0
+project_assign_level_manager,project.assign.level.manager,model_project_assign_level,project.group_project_manager,1,1,1,1

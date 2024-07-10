@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="customer_social_accounts_links" model="ir.sequence">
+        <field name="name">customer social</field>
+        <field name="code">res.partner</field>
+        <field name="prefix">C-</field>
+        <field eval="1" name="number_next"/>
+        <field eval="1" name="number_increment"/>
+        <field name="padding">3</field>
+    </record>
+</odoo>

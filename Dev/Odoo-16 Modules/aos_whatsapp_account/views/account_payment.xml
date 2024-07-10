@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    
+    <!-- <act_window id="account_send_payment_receipt_by_whatsapp_action"
+        name="Send Receipt By WhatsApp"
+        binding_model="account.payment"
+        res_model="whatsapp.compose.message"
+        view_mode="form"
+        target="new"
+        context="{
+            'default_composition_mode': 'comment',
+            'default_res_id': active_id,
+            'force_whatsapp': True,
+            'force_country': True,
+        }"/> -->
+        
+        <!-- <record id="account_send_payment_receipt_by_whatsapp_action" model="ir.actions.act_window">
+            <field name="name">Send Receipt By WhatsApp</field>
+            <field name="res_model">whatsapp.compose.message</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="context" eval="{
+		    		'default_composition_mode': 'comment',
+		            'default_res_id': active_id,
+		            'force_whatsapp': True,
+		            'force_country': True,
+                }"/>
+            <field name="binding_model_id" ref="model_account_payment"/>
+            <field name="binding_view_types">form</field>
+        </record> -->
+        
+        
+        <record id="account_send_payment_receipt_by_whatsapp_action" model="ir.actions.act_window">
+            <field name="name">Send email</field>
+            <field name="res_model">whatsapp.compose.message</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="context" eval="{
+    				'default_composition_mode': 'comment',
+		            'force_whatsapp': True,
+		            'force_country': True,
+                }"/>
+            <field name="binding_model_id" ref="account.model_account_payment"/>
+            <field name="binding_view_types">form</field>
+        </record>
+
+</odoo>

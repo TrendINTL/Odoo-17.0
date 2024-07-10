@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_sale_order_signature_inherited">
+            <field name="name">view.sale.order.signature.inherited</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+                <field name="arch" type="xml">
+                    <xpath expr="//field[@name='user_id']" position="after">
+                        <field name="person_signature" widget="signature" attrs="{'invisible': [('signature_required', '=', False)]}"/>
+                        <field name="notes" attrs="{'invisible': [('signature_required', '=', False)]}"/>
+                        <field name="signature_required"  invisible='1'/>
+                    </xpath>
+                </field>
+        </record>
+
+
+        <record id="res_config_settings_view_inherit" model="ir.ui.view">
+            <field name="name">res.config.settings.form.inherit</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="sale.res_config_settings_view_form"/>
+                <field name="arch" type="xml">
+                    <xpath expr="//div[@name='catalog_setting_container']" position="after">
+                        <h2>signature</h2>
+                        <div class="row mt16 o_settings_container" name="sale_order_signature">
+
+                            <div class="col-12 col-lg-6 o_setting_box" id="variant_options">
+                                <div class="o_setting_left_pane">
+                                    <field name="signature_required"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="signature_required"/>        
+                                </div>
+                            </div>
+                        </div>
+                    </xpath>
+                </field>
+        </record>
+    </data> 
+</odoo>
+
+
+
